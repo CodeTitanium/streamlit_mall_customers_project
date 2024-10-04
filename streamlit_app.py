@@ -22,7 +22,7 @@ with col5:
 col6, col7 = st.columns(2)
     
 with col6:
-    st.markdown("<h6 style='text-align: center;'>A simple web app to segment(group) mall customers salary</h6>", unsafe_allow_html=True)
+    st.markdown("<h6 style='text-align: center;'>A simple web app to segment/group mall customers</h6>", unsafe_allow_html=True)
 with col7:
     st.write('')
 
