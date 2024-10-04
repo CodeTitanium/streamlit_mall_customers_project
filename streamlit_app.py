@@ -66,9 +66,9 @@ if(predict_btn):
     customer_group = model.predict([X])
     col15, col16, col17 = st.columns(3)
     with col15:
-        st.write('')    
+        st.write('The 5 possible_groups are: 0, 1, 2, 3, 4')    
     with col16:
-        st.text(f"Estimated group (The 5 possible_groups are: 0, 1, 2, 3, 4): {customer_group}")
+        st.text(f"Estimated group: {customer_group}")
     with col17:
         st.write('')
         
