@@ -4,6 +4,8 @@ import streamlit as st
 
 model = pickle.load(open('model.pkl', 'rb'))
 
+df
+
 col0, col1, col2, col3, col4, col5, col6 = st.columns(7)
 with col0:
     st.write('')
@@ -29,15 +31,17 @@ with col9:
     st.write('')
 
 gen_list = ["Female", "Male"]
-edu_list = ["Bachelor's", "Master's", "PhD"]
-job_list = ["Director of Marketing", "Director of Operations", "Senior Data Scientist", "Senior Financial Analyst", "Senior Software Engineer"]
-job_idx = [0, 1, 10, 11, 20]
 
 gender = st.radio('Pick your gender', gen_list)
-age = st.slider('Pick your age', 18, 78)
-education = st.selectbox('Pick your education level', edu_list)
-job = st.selectbox('Pick your job title', job_list)
-experience = st.slider('Pick your years of experience', 0.0, 25.0, 0.0, 0.5, "%1f")
+age = st.slider('Pick your age', 18, 70)
+annual_income = st.slider('Pick your annual_salary in thousands of dollars', 15, 137)
+spending_score = st.slider('Pick your speding score', 0, 100, 0, 1)
+
+# Feature Scaling
+cols = df.columns
+from sklearn.preprocessing import MinMaxScaler
+min_max = MinMaxScaler()
+df = min_max.fit_transform(df)
 
 col10, col11, col12, col13, col14 = st.columns(5)
 with col10:
@@ -52,18 +56,17 @@ with col14:
     st.write('')
 
 if(predict_btn):
-    inp1 = int(age)
-    inp2 = float(experience)
-    inp3 = int(job_idx[job_list.index(job)])
-    inp4 = int(edu_list.index(education))
-    inp5 = int(gen_list.index(gender))
-    X = [inp1, inp2, inp3, inp4, inp5]
-    salary = model.predict([X])
+    inp1 = float(age)
+    inp2 = float(annual_income)
+    inp3 = float(spending_score)
+    inp4 = float(gender)
+    X = [inp1, inp2, inp3, inp4]
+    customer_group = model.predict([X])
     col15, col16, col17 = st.columns(3)
     with col15:
         st.write('')    
     with col16:
-        st.text(f"Estimated salary: ${int(salary[0])}")
+        st.text(f"Estimated group: ${customer_group}")
     with col17:
         st.write('')
         
