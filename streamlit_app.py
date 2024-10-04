@@ -19,13 +19,11 @@ with col4:
 with col5:
     st.write('')
 
-col7, col8, col9 = st.columns(3)
-with col7:
-    st.write('')    
-with col8:
+col6 = st.columns(1)
+    
+with col6:
     st.markdown("<h6 style='text-align: center;'>A simple web app to segment(group) mall customers salary</h6>", unsafe_allow_html=True)
-with col9:
-    st.write('')
+
 
 gen_list = ["Female", "Male"]
 
@@ -37,7 +35,7 @@ else:
 
 age = st.slider('Pick your age', 18, 70)
 annual_income = st.slider('Pick your annual_salary in thousands of dollars $', 15, 137)
-spending_score = st.slider('Pick your speNding score', 0, 100, 0, 1)
+spending_score = st.slider('Pick your spending score', 0, 100, 0, 1)
 
 # Feature Scaling
 user_input = np.array([[gender, age, annual_income, spending_score]])
