@@ -11,7 +11,7 @@ with col0:
 with col1:
     st.write('')
 with col2:
-    st.write('Customers')    
+    st.write('CUSTOMERS')    
 with col3:
     st.title('') 
 with col4:
@@ -36,8 +36,8 @@ else:
     gender = int(0)
 
 age = st.slider('Pick your age', 18, 70)
-annual_income = st.slider('Pick your annual_salary in thousands of dollars', 15, 137)
-spending_score = st.slider('Pick your speding score', 0, 100, 0, 1)
+annual_income = st.slider('Pick your annual_salary in thousands of dollars $', 15, 137)
+spending_score = st.slider('Pick your speNding score', 0, 100, 0, 1)
 
 # Feature Scaling
 user_input = np.array([[gender, age, annual_income, spending_score]])
@@ -45,16 +45,12 @@ user_input = np.array([[gender, age, annual_income, spending_score]])
 # Apply scaling on the combined 2D array
 user_input_scaled = scaler.transform(user_input)
 
-col10, col11, col12, col13, col14 = st.columns(5)
+col10, col11, col12 = st.columns(3)
 with col10:
-    st.write('')
-with col11:
     st.write('')    
-with col12:
+with col11:
     predict_btn = st.button('Predict Customer_Segment')
-with col13:
-    st.write('')
-with col14:
+with col12:
     st.write('')
 
 if(predict_btn):
