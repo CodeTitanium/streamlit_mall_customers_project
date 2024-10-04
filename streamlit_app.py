@@ -42,7 +42,7 @@ annual_income = st.slider('Pick your annual_salary in thousands of dollars', 15,
 spending_score = st.slider('Pick your speding score', 0, 100, 0, 1)
 
 # Feature Scaling
-user_input = [age, annual_income, spending_score, gender]
+user_input = [[age, annual_income, spending_score, gender]]
 user_input_scaled = scaler.transform(user_input)
 
 col10, col11, col12, col13, col14 = st.columns(5)
