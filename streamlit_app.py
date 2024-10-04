@@ -19,7 +19,7 @@ with col4:
 with col5:
     st.write('')
 
-col6, col7 = st.columns(1)
+col6, col7 = st.columns(2)
     
 with col6:
     st.markdown("<h6 style='text-align: center;'>A simple web app to segment(group) mall customers salary</h6>", unsafe_allow_html=True)
