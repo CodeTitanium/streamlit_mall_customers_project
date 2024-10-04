@@ -32,6 +32,11 @@ with col9:
 gen_list = ["Female", "Male"]
 
 gender = st.radio('Pick your gender', gen_list)
+if gender == "Male":
+    gender = int(1)
+else:
+    gender = int(0)
+
 age = st.slider('Pick your age', 18, 70)
 annual_income = st.slider('Pick your annual_salary in thousands of dollars', 15, 137)
 spending_score = st.slider('Pick your speding score', 0, 100, 0, 1)
