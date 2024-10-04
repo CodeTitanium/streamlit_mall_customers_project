@@ -64,11 +64,9 @@ if(predict_btn):
     inp4 = float(user_input_scaled[0][3])
     X = [inp1, inp2, inp3, inp4]
     customer_group = model.predict([X])
-    col15, col16, col17 = st.columns(3)
+    col15, col16 = st.columns(2)
     with col15:
-        st.write('The 5 possible_groups are: 0, 1, 2, 3, 4')    
+        st.write('The 5 possible customer groups are: 0, 1, 2, 3, 4')    
     with col16:
         st.text(f"Estimated group: {customer_group}")
-    with col17:
-        st.write('')
         
