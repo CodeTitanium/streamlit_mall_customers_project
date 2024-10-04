@@ -42,10 +42,10 @@ annual_income = st.slider('Pick your annual_salary in thousands of dollars', 15,
 spending_score = st.slider('Pick your speding score', 0, 100, 0, 1)
 
 # Feature Scaling
-age_scaled = scaler.transform(age.reshape(1, -1))
-annual_income_scaled = scaler.transform(annual_income.reshape(1, -1))
-spending_score_scaled = scaler.transform(spending_score.reshape(1, -1))
-gender_scaled = scaler.transform(gender.reshape(1, -1))
+age_scaled = scaler.transform(np.array(age).reshape(1, -1))
+annual_income_scaled = scaler.transform(np.array(annual_income).reshape(1, -1))
+spending_score_scaled = scaler.transform(np.array(spending_score).reshape(1, -1))
+gender_scaled = scaler.transform(np.array(gender).reshape(1, -1))
 
 col10, col11, col12, col13, col14 = st.columns(5)
 with col10:
