@@ -70,7 +70,7 @@ if(predict_btn):
     with col15:
         st.write('')    
     with col16:
-        st.text(f"Estimated group: ${customer_group}")
+        st.text(f"Estimated group (The 5 possible_groups are: 0, 1, 2, 3, 4): {customer_group}")
     with col17:
         st.write('')
         
