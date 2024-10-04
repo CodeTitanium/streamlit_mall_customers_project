@@ -5,20 +5,18 @@ import streamlit as st
 model = pickle.load(open('model.pkl', 'rb'))
 scaler = pickle.load(open('scaler.sav', 'rb'))
 
-col0, col1, col2, col3, col4, col5, col6 = st.columns(7)
+col0, col1, col2, col3, col4, col5 = st.columns(6)
 with col0:
     st.write('')
 with col1:
     st.write('')
 with col2:
-    st.write('')    
+    st.write('Customers')    
 with col3:
-    st.title("Customers") 
+    st.title('') 
 with col4:
     st.write('')
 with col5:
-    st.write('')
-with col6:
     st.write('')
 
 col7, col8, col9 = st.columns(3)
