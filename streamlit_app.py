@@ -17,6 +17,13 @@ st.markdown(
     .fade-in.visible {
         opacity: 1;
     }
+    .fade-out {
+        opacity: 1;
+        transition: opacity 1s ease-out;
+    }
+    .fade-out.invisible {
+        opacity: 0;
+    }
     .container {
         text-align: center;
         margin-top: 50px;
@@ -39,87 +46,82 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Initialize the session state for 'started'
+# Initialize session state
 if 'started' not in st.session_state:
     st.session_state.started = False
+if 'current_step' not in st.session_state:
+    st.session_state.current_step = 0
 
-# Display the steps before clicking the "Let's Get Started" button
+# Function to handle step transitions
+def next_step():
+    if st.session_state.current_step < 4:  # There are 4 steps
+        st.session_state.current_step += 1
+
+# Display the start button
 if not st.session_state.started:
-    st.markdown("### Steps to Predict Customer Segment:")
+    st.markdown(
+        """
+        <div class="container">
+            <button class="start-btn" onclick="document.getElementById('content').classList.add('visible');">Let's Get Started</button>
+        </div>
+        """, 
+        unsafe_allow_html=True
+    )
     
-    # Step 1: Pick your gender
-    st.markdown("1. **Pick your gender**")
-    st.markdown("2. **Pick your age**")
-    st.markdown("3. **Pick your annual salary in thousands of dollars $**")
-    st.markdown("4. **Pick your spending score**")
+    if st.button("Start"):
+        st.session_state.started = True
 
-    # Display the "Let's Get Started" button
-    if st.button("Let's Get Started"):
-        st.session_state.started = True  # Set to True when the button is clicked
-
-# Content to display after clicking the button
+# Content display logic
 if st.session_state.started:
+    # Add fade-out effect before showing the next step
+    if st.session_state.current_step > 0:
+        st.markdown("<div class='fade-out invisible' id='fade'></div>", unsafe_allow_html=True)
+
     st.markdown("<div id='content' class='fade-in visible'>", unsafe_allow_html=True)
 
-    # Layout of the app after clicking the button
-    col0, col1, col2, col3, col4, col5 = st.columns(6)
-    with col0:
-        st.write('')
-    with col1:
-        st.write('')
-    with col2:
-        st.write('CUSTOMERS')    
-    with col3:
-        st.title('') 
-    with col4:
-        st.write('')
-    with col5:
-        st.write('')
-    
-    col6, col7 = st.columns(2)
-        
-    with col6:
-        st.markdown("<h6 style='text-align: left;'>A simple web app to segment/group mall customers</h6>", unsafe_allow_html=True)
-    with col7:
-        st.write('')
-    
-    # Input selections for gender, age, annual salary, and spending score
-    gen_list = ["Female", "Male"]
-    
-    gender = st.radio('', gen_list)  # Radio button without label
-    gender = int(gender == "Male")  # Streamlined gender conversion
+    if st.session_state.current_step == 0:
+        st.markdown("<h6>Step 1: Pick your gender</h6>", unsafe_allow_html=True)
+        gen_list = ["Female", "Male"]
+        st.session_state.gender = st.radio('Select your gender', gen_list)
+        if st.button('Next'):
+            next_step()
 
-    age = st.slider('Pick your age', 18, 70)
-    annual_income = st.slider('Pick your annual salary in thousands of dollars $', 15, 137)
-    spending_score = st.slider('Pick your spending score', 0, 100, 0, 1)
+    elif st.session_state.current_step == 1:
+        st.markdown("<h6>Step 2: Pick your age</h6>", unsafe_allow_html=True)
+        st.session_state.age = st.slider('Select your age', 18, 70)
+        if st.button('Next'):
+            next_step()
 
-    # Feature Scaling
-    user_input = np.array([[gender, age, annual_income, spending_score]])
+    elif st.session_state.current_step == 2:
+        st.markdown("<h6>Step 3: Pick your annual salary in thousands of dollars</h6>", unsafe_allow_html=True)
+        st.session_state.annual_income = st.slider('Select your annual salary ($ thousands)', 15, 137)
+        if st.button('Next'):
+            next_step()
 
-    # Apply scaling on the combined 2D array
-    user_input_scaled = scaler.transform(user_input)
+    elif st.session_state.current_step == 3:
+        st.markdown("<h6>Step 4: Pick your spending score</h6>", unsafe_allow_html=True)
+        st.session_state.spending_score = st.slider('Select your spending score', 0, 100)
+        if st.button('Predict Customer Segment'):
+            # Feature Scaling
+            user_input = np.array([[1 if st.session_state.gender == "Male" else 0, st.session_state.age, st.session_state.annual_income, st.session_state.spending_score]])
+            user_input_scaled = scaler.transform(user_input)
+            customer_group = model.predict(user_input_scaled)
 
-    # Prediction button layout
-    col10, col11, col12 = st.columns(3)
-    with col10:
-        st.write('')    
-    with col11:
-        predict_btn = st.button('Predict Customer Segment')
-    with col12:
-        st.write('')
-
-    if predict_btn:
-        inp1 = float(user_input_scaled[0][0])
-        inp2 = float(user_input_scaled[0][1])
-        inp3 = float(user_input_scaled[0][2])
-        inp4 = float(user_input_scaled[0][3])
-        X = [inp1, inp2, inp3, inp4]
-        customer_group = model.predict([X])
-        col15, col16 = st.columns(2)
-        with col15:
             st.write('The 5 possible customer groups are: 0, 1, 2, 3, 4')    
-        with col16:
-            st.text(f"Estimated group: {customer_group}")
-
+            st.text(f"Estimated group: {customer_group[0]}")
+    
     st.markdown("</div>", unsafe_allow_html=True)  # Closing the content div
 
+    # Adding a script to trigger fade-in/out effects
+    if st.session_state.current_step > 0:
+        st.markdown(
+            """
+            <script>
+            setTimeout(function() {
+                document.getElementById('fade').classList.remove('invisible');
+                document.getElementById('fade').classList.add('fade-out');
+            }, 100);  // Short delay before fading out
+            </script>
+            """,
+            unsafe_allow_html=True
+        )
