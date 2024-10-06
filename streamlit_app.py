@@ -45,6 +45,7 @@ if not st.session_state.started:
     if st.button("Let's Get Started"):
         st.session_state.started = True  # Change the state when the button is clicked
 
+
 # Content to show after the button is clicked
 if st.session_state.started:
     st.markdown("<div class='fade-in visible'>", unsafe_allow_html=True)
