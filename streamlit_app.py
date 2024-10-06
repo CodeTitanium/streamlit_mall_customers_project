@@ -65,12 +65,12 @@ if not st.session_state.started:
                 <li>Pick your annual salary in thousands of dollars</li>
                 <li>Pick your spending score</li>
             </ol>
-            <button class="start-btn" onclick="document.getElementById('content').classList.add('visible');">Let's Get Started</button>
+            <button class="start-btn" id="start-btn" onclick="document.getElementById('start-btn').style.display='none';">Let's Get Started</button>
         </div>
         """, 
         unsafe_allow_html=True
     )
-    
+
 # If the user clicks the "Let's Get Started" button
 if st.button("Start"):
     st.session_state.started = True
@@ -92,40 +92,4 @@ if st.session_state.started:
 
     elif st.session_state.current_step == 1:
         st.markdown("<h6>Step 2: Pick your age</h6>", unsafe_allow_html=True)
-        st.session_state.age = st.slider('Select your age', 18, 70)
-        if st.button('Next'):
-            st.session_state.current_step += 1
-
-    elif st.session_state.current_step == 2:
-        st.markdown("<h6>Step 3: Pick your annual salary in thousands of dollars</h6>", unsafe_allow_html=True)
-        st.session_state.annual_income = st.slider('Select your annual salary ($ thousands)', 15, 137)
-        if st.button('Next'):
-            st.session_state.current_step += 1
-
-    elif st.session_state.current_step == 3:
-        st.markdown("<h6>Step 4: Pick your spending score</h6>", unsafe_allow_html=True)
-        st.session_state.spending_score = st.slider('Select your spending score', 0, 100)
-        if st.button('Predict Customer Segment'):
-            # Feature Scaling
-            user_input = np.array([[1 if st.session_state.gender == "Male" else 0, st.session_state.age, st.session_state.annual_income, st.session_state.spending_score]])
-            user_input_scaled = scaler.transform(user_input)
-            customer_group = model.predict(user_input_scaled)
-
-            st.write('The 5 possible customer groups are: 0, 1, 2, 3, 4')    
-            st.text(f"Estimated group: {customer_group[0]}")
-    
-    st.markdown("</div>", unsafe_allow_html=True)  # Closing the content div
-
-    # Adding a script to trigger fade-in/out effects
-    if st.session_state.current_step > 0:
-        st.markdown(
-            """
-            <script>
-            setTimeout(function() {
-                document.getElementById('fade').classList.remove('invisible');
-                document.getElementById('fade').classList.add('fade-out');
-            }, 100);  // Short delay before fading out
-            </script>
-            """,
-            unsafe_allow_html=True
-        )
+        st.session_state.age = st.slider('Select your age', 18, 7
