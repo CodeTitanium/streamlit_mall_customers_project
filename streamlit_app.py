@@ -5,6 +5,38 @@ import streamlit as st
 model = pickle.load(open('model.pkl', 'rb'))
 scaler = pickle.load(open('scaler.sav', 'rb'))
 
+st.markdown(
+    """
+    <style>
+    .fade-in{
+    opacity:0;
+    transition:opacity 2s ease-in;
+    }
+    .fade-in.visible{
+    opacity:1;
+    }
+    .container{
+    text-align:center;
+    margin-top:50px;
+    }
+    .start-btn{
+    background-color: #4CAF50;
+    color:white;
+    padding;10px 24px;
+    border:none;
+    border-radius:5px;
+    font-size:18px;
+    cursor:poinnter;
+    margin-bottom:20px;
+    }
+    .start-btn:hover{
+    background-color: #45a049;
+    }
+    </style>
+    """,
+    unsafe_allow_html = True
+)
+
 st.session_state.started = False
 
 if not st.session_state.started:
