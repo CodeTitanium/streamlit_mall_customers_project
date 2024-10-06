@@ -37,14 +37,14 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+#Initialize the session state for 'started'
 if 'started' not in st.session_state:
     st.session_state.started = False
 
-# Button to start the app
+# Display the "Let's Get Started" button
 if not st.session_state.started:
     if st.button("Let's Get Started"):
-        st.session_state.started = True  # Change the state when the button is clicked
-
+        st.session_state.started = True  # Set to True when the button is clicked
 
 # Content to show after the button is clicked
 if st.session_state.started:
