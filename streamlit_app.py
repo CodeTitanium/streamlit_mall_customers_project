@@ -53,33 +53,42 @@ if st.session_state.started:
     st.markdown("<div id='content' class='fade-in visible'>", unsafe_allow_html=True)
 
     # Layout of the app
-    st.markdown("### Steps to Predict Customer Segment:")
+    col0, col1, col2, col3, col4, col5 = st.columns(6)
+    with col0:
+        st.write('')
+    with col1:
+        st.write('')
+    with col2:
+        st.write('CUSTOMERS')    
+    with col3:
+        st.title('') 
+    with col4:
+        st.write('')
+    with col5:
+        st.write('')
     
-    # Step 1: Pick your gender
-    st.markdown("1. **Pick your gender**")
+    col6, col7 = st.columns(2)
+        
+    with col6:
+        st.markdown("<h6 style='text-align: left;'>A simple web app to segment/group mall customers</h6>", unsafe_allow_html=True)
+    with col7:
+        st.write('')
+    
     gen_list = ["Female", "Male"]
-    gender = st.radio('', gen_list)  # Radio button without label
+    
+    gender = st.radio('Pick your gender', gen_list)
     gender = int(gender == "Male")  # Streamlined gender conversion
-
-    # Step 2: Pick your age
-    st.markdown("2. **Pick your age**")
-    age = st.slider('', 18, 70)
-
-    # Step 3: Pick your annual salary in thousands of dollars
-    st.markdown("3. **Pick your annual salary in thousands of dollars $**")
-    annual_income = st.slider('', 15, 137)
-
-    # Step 4: Pick your spending score
-    st.markdown("4. **Pick your spending score**")
-    spending_score = st.slider('', 0, 100, 0, 1)
-
+    
+    age = st.slider('Pick your age', 18, 70)
+    annual_income = st.slider('Pick your annual salary in thousands of dollars $', 15, 137)
+    spending_score = st.slider('Pick your spending score', 0, 100, 0, 1)
+    
     # Feature Scaling
     user_input = np.array([[gender, age, annual_income, spending_score]])
-
+    
     # Apply scaling on the combined 2D array
     user_input_scaled = scaler.transform(user_input)
-
-    # Prediction button layout
+    
     col10, col11, col12 = st.columns(3)
     with col10:
         st.write('')    
@@ -87,7 +96,7 @@ if st.session_state.started:
         predict_btn = st.button('Predict Customer Segment')
     with col12:
         st.write('')
-
+    
     if predict_btn:
         inp1 = float(user_input_scaled[0][0])
         inp2 = float(user_input_scaled[0][1])
@@ -100,5 +109,5 @@ if st.session_state.started:
             st.write('The 5 possible customer groups are: 0, 1, 2, 3, 4')    
         with col16:
             st.text(f"Estimated group: {customer_group}")
-
+    
     st.markdown("</div>", unsafe_allow_html=True)  # Closing the content div
