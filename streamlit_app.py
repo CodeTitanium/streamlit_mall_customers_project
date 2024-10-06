@@ -37,13 +37,23 @@ st.markdown(
     unsafe_allow_html = True
 )
 
+# if 'started' not in st.session_state:
 st.session_state.started = False
 
 if not st.session_state.started:
-    st.title("Welcome!")
-    if st.button("Let's get started"):
+    st.markdown(
+        """
+        <div class="container">
+            <button class="start-btn" onclick="document.getElementById('content').classList.add('visible');">Let's Get Started</button>
+        </div>
+        """, 
+        unsafe_allow_html=True
+    )
+    if st.button("Hide Button After Click"):
         st.session_state.started = True
-else:
+if st.session_state.started:
+    st.markdown("<div id='content' class='fade-in visible'>", 
+                unsafe_allow_html=True)
     col0, col1, col2, col3, col4, col5 = st.columns(6)
     with col0:
         st.write('')
