@@ -34,7 +34,7 @@ st.markdown(
     }
     </style>
     """,
-    unsafe_allow_html = True
+    unsafe_allow_html=True
 )
 
 if 'started' not in st.session_state:
@@ -49,11 +49,13 @@ if not st.session_state.started:
         """, 
         unsafe_allow_html=True
     )
+    # Add this button to update session state
     if st.button("Hide Button After Click"):
         st.session_state.started = True
-if st.session_state.started:
+else:  # This part will execute only if the button is clicked
     st.markdown("<div id='content' class='fade-in visible'>", 
                 unsafe_allow_html=True)
+    
     col0, col1, col2, col3, col4, col5 = st.columns(6)
     with col0:
         st.write('')
@@ -78,10 +80,7 @@ if st.session_state.started:
     gen_list = ["Female", "Male"]
     
     gender = st.radio('Pick your gender', gen_list)
-    if gender == "Male":
-        gender = int(1)
-    else:
-        gender = int(0)
+    gender = int(gender == "Male")  # Streamlined gender conversion
     
     age = st.slider('Pick your age', 18, 70)
     annual_income = st.slider('Pick your annual_salary in thousands of dollars $', 15, 137)
@@ -101,7 +100,7 @@ if st.session_state.started:
     with col12:
         st.write('')
     
-    if(predict_btn):
+    if predict_btn:
         inp1 = float(user_input_scaled[0][0])
         inp2 = float(user_input_scaled[0][1])
         inp3 = float(user_input_scaled[0][2])
@@ -114,4 +113,5 @@ if st.session_state.started:
         with col16:
             st.text(f"Estimated group: {customer_group}")
         
-  st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)  # Place the closing tag here
+
