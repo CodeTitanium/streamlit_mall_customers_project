@@ -2,34 +2,36 @@ import pickle
 import numpy as np
 import streamlit as st
 
+# Load the model and scaler
 model = pickle.load(open('model.pkl', 'rb'))
 scaler = pickle.load(open('scaler.sav', 'rb'))
 
+# CSS styling for transitions
 st.markdown(
     """
     <style>
-    .fade-in{
-        opacity:0;
-        transition:opacity 2s ease-in;
+    .fade-in {
+        opacity: 0;
+        transition: opacity 2s ease-in;
     }
-    .fade-in.visible{
-        opacity:1;
+    .fade-in.visible {
+        opacity: 1;
     }
-    .container{
-        text-align:center;
-        margin-top:50px;
+    .container {
+        text-align: center;
+        margin-top: 50px;
     }
-    .start-btn{
+    .start-btn {
         background-color: #4CAF50;
-        color:white;
-        padding:10px 24px;
-        border:none;
-        border-radius:5px;
-        font-size:18px;
-        cursor:pointer;
-        margin-bottom:20px;
+        color: white;
+        padding: 10px 24px;
+        border: none;
+        border-radius: 5px;
+        font-size: 18px;
+        cursor: pointer;
+        margin-bottom: 20px;
     }
-    .start-btn:hover{
+    .start-btn:hover {
         background-color: #45a049;
     }
     </style>
@@ -37,7 +39,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-#Initialize the session state for 'started'
+# Initialize the session state for 'started'
 if 'started' not in st.session_state:
     st.session_state.started = False
 
@@ -46,10 +48,11 @@ if not st.session_state.started:
     if st.button("Let's Get Started"):
         st.session_state.started = True  # Set to True when the button is clicked
 
-# Content to show after the button is clicked
+# Content to display after clicking the button
 if st.session_state.started:
-    st.markdown("<div class='fade-in visible'>", unsafe_allow_html=True)
+    st.markdown("<div id='content' class='fade-in visible'>", unsafe_allow_html=True)
 
+    # Layout of the app
     col0, col1, col2, col3, col4, col5 = st.columns(6)
     with col0:
         st.write('')
@@ -77,7 +80,7 @@ if st.session_state.started:
     gender = int(gender == "Male")  # Streamlined gender conversion
     
     age = st.slider('Pick your age', 18, 70)
-    annual_income = st.slider('Pick your annual_salary in thousands of dollars $', 15, 137)
+    annual_income = st.slider('Pick your annual salary in thousands of dollars $', 15, 137)
     spending_score = st.slider('Pick your spending score', 0, 100, 0, 1)
     
     # Feature Scaling
@@ -90,7 +93,7 @@ if st.session_state.started:
     with col10:
         st.write('')    
     with col11:
-        predict_btn = st.button('Predict Customer_Segment')
+        predict_btn = st.button('Predict Customer Segment')
     with col12:
         st.write('')
     
@@ -107,4 +110,5 @@ if st.session_state.started:
         with col16:
             st.text(f"Estimated group: {customer_group}")
     
-    st.markdown("</div>", unsafe_allow_html=True)  # Place the closing tag here
+    st.markdown("</div>", unsafe_allow_html=True)  # Closing the content div
+
