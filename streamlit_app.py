@@ -22,11 +22,11 @@ st.markdown(
     .start-btn{
         background-color: #4CAF50;
         color:white;
-        padding;10px 24px;
+        padding:10px 24px;
         border:none;
         border-radius:5px;
         font-size:18px;
-        cursor:poinnter;
+        cursor:pointer;
         margin-bottom:20px;
     }
     .start-btn:hover{
@@ -37,8 +37,8 @@ st.markdown(
     unsafe_allow_html = True
 )
 
-# if 'started' not in st.session_state:
-st.session_state.started = False
+if 'started' not in st.session_state:
+    st.session_state.started = False
 
 if not st.session_state.started:
     st.markdown(
