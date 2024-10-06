@@ -44,14 +44,11 @@ if not st.session_state.started:
     st.markdown(
         """
         <div class="container">
-            <button class="start-btn">Let's Get Started</button>
+            <button class="start-btn" onclick="document.getElementById('content').classList.add('visible'); document.getElementById('button-div').style.display='none';">Let's Get Started</button>
         </div>
         """, 
         unsafe_allow_html=True
     )
-    # Add this button to update session state
-    if st.button("Hide Button After Click"):
-        st.session_state.started = True
 else:  # This part will execute only if the button is clicked
     st.markdown("<div id='content' class='fade-in visible'>", 
                 unsafe_allow_html=True)
