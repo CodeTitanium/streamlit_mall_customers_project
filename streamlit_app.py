@@ -80,10 +80,7 @@ if not st.session_state.started:
     if st.button("Let's Get Started"):
         st.session_state.started = True
         st.session_state.current_step = 0  # Reset steps
-        try:
-            st.experimental_rerun()  # Rerun the app to refresh the interface
-        except Exception as e:
-            st.error(f"Error during rerun: {e}")
+        st.stop()  # Stop the app to refresh the interface
 
 # Content display logic after clicking the start button
 if st.session_state.started:
@@ -95,30 +92,21 @@ if st.session_state.started:
         st.session_state.gender = st.radio('Select your gender', gen_list)
         if st.button('Next'):
             st.session_state.current_step += 1
-            try:
-                st.experimental_rerun()  # Rerun to refresh the interface
-            except Exception as e:
-                st.error(f"Error during rerun: {e}")
+            st.stop()  # Stop to refresh the interface
 
     elif st.session_state.current_step == 1:
         st.markdown("<h6>Step 2: Pick your age</h6>", unsafe_allow_html=True)
         st.session_state.age = st.slider('Select your age', 18, 70)
         if st.button('Next'):
             st.session_state.current_step += 1
-            try:
-                st.experimental_rerun()  # Rerun to refresh the interface
-            except Exception as e:
-                st.error(f"Error during rerun: {e}")
+            st.stop()  # Stop to refresh the interface
 
     elif st.session_state.current_step == 2:
         st.markdown("<h6>Step 3: Pick your annual salary in thousands of dollars</h6>", unsafe_allow_html=True)
         st.session_state.annual_income = st.slider('Select your annual salary ($ thousands)', 15, 137)
         if st.button('Next'):
             st.session_state.current_step += 1
-            try:
-                st.experimental_rerun()  # Rerun to refresh the interface
-            except Exception as e:
-                st.error(f"Error during rerun: {e}")
+            st.stop()  # Stop to refresh the interface
 
     elif st.session_state.current_step == 3:
         st.markdown("<h6>Step 4: Pick your spending score</h6>", unsafe_allow_html=True)
@@ -134,10 +122,7 @@ if st.session_state.started:
             st.text(f"Estimated group: {customer_group[0]}")
             # Hide content after prediction
             st.session_state.current_step += 1
-            try:
-                st.experimental_rerun()  # Rerun to refresh the interface
-            except Exception as e:
-                st.error(f"Error during rerun: {e}")
+            st.stop()  # Stop to refresh the interface
 
     st.markdown("</div>", unsafe_allow_html=True)  # Closing the content div
 
