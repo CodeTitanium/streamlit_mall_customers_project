@@ -111,4 +111,3 @@ if st.session_state.started:
             st.text(f"Estimated group: {customer_group}")
     
     st.markdown("</div>", unsafe_allow_html=True)  # Closing the content div
-
