@@ -46,11 +46,19 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Initialize session state
+# Initialize session state variables
 if 'started' not in st.session_state:
     st.session_state.started = False
 if 'current_step' not in st.session_state:
     st.session_state.current_step = 0
+if 'gender' not in st.session_state:
+    st.session_state.gender = None
+if 'age' not in st.session_state:
+    st.session_state.age = None
+if 'annual_income' not in st.session_state:
+    st.session_state.annual_income = None
+if 'spending_score' not in st.session_state:
+    st.session_state.spending_score = None
 
 # Display the initial instructions and start button
 if not st.session_state.started:
