@@ -52,28 +52,32 @@ if 'started' not in st.session_state:
 if 'current_step' not in st.session_state:
     st.session_state.current_step = 0
 
-# Function to handle step transitions
-def next_step():
-    if st.session_state.current_step < 4:  # There are 4 steps
-        st.session_state.current_step += 1
-
-# Display the start button
+# Display the initial instructions
 if not st.session_state.started:
     st.markdown(
         """
         <div class="container">
+            <h2>Welcome!</h2>
+            <h4>Follow these steps:</h4>
+            <ol>
+                <li>Pick your gender</li>
+                <li>Pick your age</li>
+                <li>Pick your annual salary in thousands of dollars</li>
+                <li>Pick your spending score</li>
+            </ol>
             <button class="start-btn" onclick="document.getElementById('content').classList.add('visible');">Let's Get Started</button>
         </div>
         """, 
         unsafe_allow_html=True
     )
     
-    if st.button("Start"):
-        st.session_state.started = True
+# If the user clicks the "Let's Get Started" button
+if st.button("Start"):
+    st.session_state.started = True
+    st.session_state.current_step = 0  # Reset steps
 
-# Content display logic
+# Content display logic after clicking the start button
 if st.session_state.started:
-    # Add fade-out effect before showing the next step
     if st.session_state.current_step > 0:
         st.markdown("<div class='fade-out invisible' id='fade'></div>", unsafe_allow_html=True)
 
@@ -84,19 +88,19 @@ if st.session_state.started:
         gen_list = ["Female", "Male"]
         st.session_state.gender = st.radio('Select your gender', gen_list)
         if st.button('Next'):
-            next_step()
+            st.session_state.current_step += 1
 
     elif st.session_state.current_step == 1:
         st.markdown("<h6>Step 2: Pick your age</h6>", unsafe_allow_html=True)
         st.session_state.age = st.slider('Select your age', 18, 70)
         if st.button('Next'):
-            next_step()
+            st.session_state.current_step += 1
 
     elif st.session_state.current_step == 2:
         st.markdown("<h6>Step 3: Pick your annual salary in thousands of dollars</h6>", unsafe_allow_html=True)
         st.session_state.annual_income = st.slider('Select your annual salary ($ thousands)', 15, 137)
         if st.button('Next'):
-            next_step()
+            st.session_state.current_step += 1
 
     elif st.session_state.current_step == 3:
         st.markdown("<h6>Step 4: Pick your spending score</h6>", unsafe_allow_html=True)
