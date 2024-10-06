@@ -40,19 +40,15 @@ st.markdown(
 if 'started' not in st.session_state:
     st.session_state.started = False
 
+# Button to start the app
 if not st.session_state.started:
-    st.markdown(
-        """
-        <div class="container">
-            <button class="start-btn" onclick="document.getElementById('content').classList.add('visible'); document.getElementById('button-div').style.display='none';">Let's Get Started</button>
-        </div>
-        """, 
-        unsafe_allow_html=True
-    )
-else:  # This part will execute only if the button is clicked
-    st.markdown("<div id='content' class='fade-in visible'>", 
-                unsafe_allow_html=True)
-    
+    if st.button("Let's Get Started"):
+        st.session_state.started = True  # Change the state when the button is clicked
+
+# Content to show after the button is clicked
+if st.session_state.started:
+    st.markdown("<div class='fade-in visible'>", unsafe_allow_html=True)
+
     col0, col1, col2, col3, col4, col5 = st.columns(6)
     with col0:
         st.write('')
@@ -109,6 +105,5 @@ else:  # This part will execute only if the button is clicked
             st.write('The 5 possible customer groups are: 0, 1, 2, 3, 4')    
         with col16:
             st.text(f"Estimated group: {customer_group}")
-        
+    
     st.markdown("</div>", unsafe_allow_html=True)  # Place the closing tag here
-
