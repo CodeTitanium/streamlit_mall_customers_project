@@ -65,7 +65,7 @@ if not st.session_state.started:
                 <li>Pick your annual salary in thousands of dollars</li>
                 <li>Pick your spending score</li>
             </ol>
-            <button class="start-btn" id="start-btn" onclick="document.getElementById('start-btn').style.display='none';">Let's Get Started</button>
+            <button class="start-btn" onclick="document.getElementById('start-btn').style.display='none';">Let's Get Started</button>
         </div>
         """, 
         unsafe_allow_html=True
@@ -78,9 +78,6 @@ if st.button("Start"):
 
 # Content display logic after clicking the start button
 if st.session_state.started:
-    if st.session_state.current_step > 0:
-        st.markdown("<div class='fade-out invisible' id='fade'></div>", unsafe_allow_html=True)
-
     st.markdown("<div id='content' class='fade-in visible'>", unsafe_allow_html=True)
 
     if st.session_state.current_step == 0:
@@ -92,4 +89,40 @@ if st.session_state.started:
 
     elif st.session_state.current_step == 1:
         st.markdown("<h6>Step 2: Pick your age</h6>", unsafe_allow_html=True)
-        st.session_state.age = st.slider('Select your age', 18, 7
+        st.session_state.age = st.slider('Select your age', 18, 70)
+        if st.button('Next'):
+            st.session_state.current_step += 1
+
+    elif st.session_state.current_step == 2:
+        st.markdown("<h6>Step 3: Pick your annual salary in thousands of dollars</h6>", unsafe_allow_html=True)
+        st.session_state.annual_income = st.slider('Select your annual salary ($ thousands)', 15, 137)
+        if st.button('Next'):
+            st.session_state.current_step += 1
+
+    elif st.session_state.current_step == 3:
+        st.markdown("<h6>Step 4: Pick your spending score</h6>", unsafe_allow_html=True)
+        st.session_state.spending_score = st.slider('Select your spending score', 0, 100)
+        if st.button('Predict Customer Segment'):
+            # Feature Scaling
+            gender_numeric = 1 if st.session_state.gender == "Male" else 0
+            user_input = np.array([[gender_numeric, st.session_state.age, st.session_state.annual_income, st.session_state.spending_score]])
+            user_input_scaled = scaler.transform(user_input)
+            customer_group = model.predict(user_input_scaled)
+
+            st.write('The 5 possible customer groups are: 0, 1, 2, 3, 4')    
+            st.text(f"Estimated group: {customer_group[0]}")
+            # Hide content after prediction
+            st.session_state.current_step += 1
+
+    st.markdown("</div>", unsafe_allow_html=True)  # Closing the content div
+
+# Hide the entire content after all steps
+if st.session_state.current_step > 3:
+    st.markdown(
+        """
+        <script>
+        document.getElementById('content').style.display='none';
+        </script>
+        """,
+        unsafe_allow_html=True
+    )
