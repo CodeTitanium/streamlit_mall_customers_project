@@ -150,4 +150,3 @@ if st.session_state.step == 5:
         """,
         unsafe_allow_html=True
     )
-
