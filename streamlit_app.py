@@ -40,6 +40,8 @@ st.markdown(
     }
     .refresh-container img {
         cursor: pointer;
+        background: none;
+        border: none;
     }
     </style>
     """,
@@ -108,18 +110,18 @@ if st.session_state.step == 4:
         st.session_state.prediction = customer_group[0]
         st.session_state.step = 5
 
-# Display prediction and refresh button
+# Display prediction and refresh image button
 if st.session_state.step == 5:
     st.write('The 5 possible customer groups are: 0, 1, 2, 3, 4')
     st.write(f"Estimated group: {st.session_state.prediction}")
     
-    # Display refresh button embedded inside the image using HTML
+    # Display refresh image embedded as a clickable element using HTML
     st.markdown(
         """
         <div class="refresh-container">
             <form action="" method="get">
                 <button type="submit" style="background:none; border:none; padding:0;">
-                    <img src="https://thumbs.dreamstime.com/b/refresh-rotate-arrow-icon-prime-green-round-button-refresh-rotate-arrow-icon-isolated-prime-green-round-button-abstract-104763662.jpg" width="100" alt="Refresh"/>
+                    <img src="https://your-transparent-background-image-url.png" width="100" alt="Refresh" />
                 </button>
             </form>
         </div>
@@ -127,7 +129,4 @@ if st.session_state.step == 5:
         unsafe_allow_html=True
     )
 
-    # Reset the app when the refresh button is clicked
-    if st.button("Refresh App"):
-        reset_app()
-
+    # No additional refresh button here, the image acts as the refresh button.
