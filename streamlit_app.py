@@ -10,6 +10,14 @@ scaler = pickle.load(open('scaler.sav', 'rb'))
 st.markdown(
     """
     <style>
+    body {
+        background-color: #1a1a1a;  /* Dark background */
+        color: #f0f0f0;  /* Light text color */
+        font-family: 'Arial', sans-serif; /* Modern font */
+    }
+    h1, h2, h3, h4 {
+        color: #4CAF50; /* Bright green for headings */
+    }
     .fade-in {
         opacity: 0;
         transition: opacity 2s ease-in;
@@ -19,29 +27,33 @@ st.markdown(
     }
     .container {
         text-align: center;
-        margin-top: 50px;
+        margin: 50px auto;
+        max-width: 600px;  /* Centered container */
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #2a2a2a; /* Slightly lighter background for the container */
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5); /* Shadow for depth */
     }
     .start-btn, .refresh-btn {
-        background-color: #4CAF50;
+        background-color: #4CAF50; /* Button color */
         color: white;
-        padding: 10px 24px;
+        padding: 12px 30px;
         border: none;
-        border-radius: 5px;
+        border-radius: 25px; /* Rounded edges */
         font-size: 18px;
         cursor: pointer;
-        margin-bottom: 20px;
+        margin: 20px 0;
+        transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
     }
     .start-btn:hover, .refresh-btn:hover {
-        background-color: #45a049;
-    }
-    .refresh-container {
-        text-align: center;
-        margin-top: 20px;
+        background-color: #45a049; /* Darker on hover */
+        transform: scale(1.05); /* Slightly grow */
     }
     .refresh-container img {
         cursor: pointer;
         background: none;
         border: none;
+        width: 60px; /* Set refresh icon size */
     }
     </style>
     """,
@@ -65,6 +77,8 @@ if st.session_state.step == 0:
     st.markdown(
         """
         <div class="container">
+            <h2>Welcome to the Customer Segmentation App</h2>
+            <p>Click the button below to begin the process.</p>
             <button class="start-btn" onclick="document.getElementById('content').classList.add('visible');">Let's Get Started</button>
         </div>
         """,
@@ -75,28 +89,32 @@ if st.session_state.step == 0:
 
 # Step 1: Pick gender
 if st.session_state.step == 1:
-    gender = st.radio('Step 1: Pick your gender', ["Female", "Male"])
+    st.markdown("<div class='container'><h3>Step 1: Pick your gender</h3></div>", unsafe_allow_html=True)
+    gender = st.radio('Select Gender', ["Female", "Male"])
     if st.button("Next (Age)"):
         st.session_state.gender = 1 if gender == "Male" else 0
         st.session_state.step = 2
 
 # Step 2: Pick age
 if st.session_state.step == 2:
-    age = st.slider('Step 2: Pick your age', 18, 70)
+    st.markdown("<div class='container'><h3>Step 2: Pick your age</h3></div>", unsafe_allow_html=True)
+    age = st.slider('Select Age', 18, 70)
     if st.button("Next (Annual Salary)"):
         st.session_state.age = age
         st.session_state.step = 3
 
 # Step 3: Pick annual income
 if st.session_state.step == 3:
-    annual_income = st.slider('Step 3: Pick your annual salary in thousands of dollars', 15, 137)
+    st.markdown("<div class='container'><h3>Step 3: Pick your annual salary</h3></div>", unsafe_allow_html=True)
+    annual_income = st.slider('Select Annual Salary in Thousands', 15, 137)
     if st.button("Next (Spending Score)"):
         st.session_state.annual_income = annual_income
         st.session_state.step = 4
 
 # Step 4: Pick spending score
 if st.session_state.step == 4:
-    spending_score = st.slider('Step 4: Pick your spending score', 0, 100)
+    st.markdown("<div class='container'><h3>Step 4: Pick your spending score</h3></div>", unsafe_allow_html=True)
+    spending_score = st.slider('Select Spending Score', 0, 100)
     if st.button("Predict Customer Segment"):
         st.session_state.spending_score = spending_score
 
@@ -112,6 +130,7 @@ if st.session_state.step == 4:
 
 # Display prediction and refresh image button
 if st.session_state.step == 5:
+    st.markdown("<div class='container'><h3>Prediction Result</h3></div>", unsafe_allow_html=True)
     st.write('The 5 possible customer groups are: 0, 1, 2, 3, 4')
     st.write(f"Estimated group: {st.session_state.prediction}")
     
@@ -121,7 +140,7 @@ if st.session_state.step == 5:
         <div class="refresh-container">
             <form action="" method="get">
                 <button type="submit" style="background:none; border:none; padding:0;">
-                    <img src="https://www.freeiconspng.com/uploads/green-refresh-icon-png-11.png" width="100" alt="Refresh" />
+                    <img src="https://www.freeiconspng.com/uploads/green-refresh-icon-png-11.png" alt="Refresh" />
                 </button>
             </form>
         </div>
