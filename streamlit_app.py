@@ -1,7 +1,6 @@
 import pickle
 import numpy as np
 import streamlit as st
-from PIL import Image
 
 # Load model and scaler
 model = pickle.load(open('model.pkl', 'rb'))
@@ -107,9 +106,8 @@ if st.session_state.step == 5:
     st.write('The 5 possible customer groups are: 0, 1, 2, 3, 4')
     st.write(f"Estimated group: {st.session_state.prediction}")
     
-    # Load and display refresh button from the image file
-    refresh_image = Image.open('/mnt/data/A_circular_green_button_with_a_white_refresh_icon_.png')
-    st.image(refresh_image, width=100)
+    # Display refresh button using URL image
+    st.image('https://thumbs.dreamstime.com/b/refresh-rotate-arrow-icon-prime-green-round-button-refresh-rotate-arrow-icon-isolated-prime-green-round-button-abstract-104763662.jpg', width=100)
     
     if st.button("Refresh"):
         reset_app()
