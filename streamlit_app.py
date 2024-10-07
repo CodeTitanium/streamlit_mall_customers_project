@@ -107,4 +107,60 @@ if st.session_state.step == 2:
             st.session_state.age = age
             st.session_state.step = 3
     with col2:
-  
+        if st.button("Back"):
+            st.session_state.step = 1
+
+# Step 3: Pick annual income
+if st.session_state.step == 3:
+    st.markdown("<div class='container'><h3>Step 3: Pick your annual salary</h3></div>", unsafe_allow_html=True)
+    annual_income = st.slider('Select Annual Salary in Thousands', 15, 137, value=st.session_state.annual_income if st.session_state.annual_income is not None else 75)
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Next (Spending Score)", key='next3'):
+            st.session_state.annual_income = annual_income
+            st.session_state.step = 4
+    with col2:
+        if st.button("Back"):
+            st.session_state.step = 2
+
+# Step 4: Pick spending score
+if st.session_state.step == 4:
+    st.markdown("<div class='container'><h3>Step 4: Pick your spending score</h3></div>", unsafe_allow_html=True)
+    spending_score = st.slider('Select Spending Score', 0, 100, value=st.session_state.spending_score if st.session_state.spending_score is not None else 50)
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Predict Customer Segment"):
+            st.session_state.spending_score = spending_score
+
+            # Prepare user input for prediction
+            user_input = np.array([[st.session_state.gender, st.session_state.age, st.session_state.annual_income, st.session_state.spending_score]])
+            user_input_scaled = scaler.transform(user_input)
+
+            # Prediction
+            customer_group = model.predict(user_input_scaled)
+            st.session_state.predicted = True
+            st.session_state.prediction = customer_group[0]
+            st.session_state.step = 5
+    with col2:
+        if st.button("Back"):
+            st.session_state.step = 3
+
+# Display prediction and refresh image button
+if st.session_state.step == 5:
+    st.markdown("<div class='container'><h3>Prediction Result</h3></div>", unsafe_allow_html=True)
+    st.write('The 5 possible customer groups are: 0, 1, 2, 3, 4')
+    st.write(f"Estimated group: {st.session_state.prediction}")
+    
+    # Display refresh image embedded as a clickable element using HTML
+    st.markdown(
+        """
+        <div class="refresh-container">
+            <form action="" method="get">
+                <button type="submit" style="background:none; border:none; padding:0;">
+                    <img src="https://www.freeiconspng.com/uploads/green-refresh-icon-png-11.png" alt="Refresh" />
+                </button>
+            </form>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
