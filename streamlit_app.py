@@ -67,13 +67,15 @@ if st.session_state.step == 0:
             <h2>Welcome to the Customer Segmentation App</h2>
             <p>Click the button below to begin the process.</p>
             <button class="start-btn" onclick="document.getElementById('start').click();">Let's Get Started</button>
+            <br>
+            <button class="start-btn" id="start" style="display:none;" onclick="window.location.reload();">Start</button>
         </div>
         """,
         unsafe_allow_html=True
     )
     
-    # Place the Streamlit button below the HTML button using a placeholder
-    if st.button("Start", key='start'):
+    # Trigger the step change using JavaScript
+    if st.button("Trigger Start", key='start'):
         st.session_state.step = 1
 
 # Step 1: Pick gender
