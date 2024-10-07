@@ -67,20 +67,23 @@ def display_step():
             <div class='container'>
                 <h2>Welcome to the Customer Segmentation App</h2>
                 <p>Click the button below to begin the process.</p>
-                <button class="button" id="start-button">Let's Get Started</button>
+                <button class="button" onclick="document.getElementById('start-button').click();">Let's Get Started</button>
+                <button id="start-button" style="display:none;" onclick="window.parent.start_app();">Start</button>
             </div>
             <script>
-                document.getElementById('start-button').onclick = function() {
-                    window.parent.document.getElementById("start").click();
+                window.parent.start_app = function() {
+                    const startButton = document.getElementById("start-button");
+                    startButton.click();
                 }
             </script>
             """,
             unsafe_allow_html=True
         )
-        if st.button("Start", key='start', help="Click to begin"):
-            st.session_state.step = 1
 
-    elif st.session_state.step == 1:
+    if st.button("Start", key='start', help="Click to begin"):
+        st.session_state.step = 1
+
+    if st.session_state.step == 1:
         st.markdown("<div class='container'><h3>Step 1: Pick your gender</h3></div>", unsafe_allow_html=True)
         gender = st.radio('Select Gender', ["Female", "Male"])
         if st.button("Next (Age)"):
@@ -121,4 +124,5 @@ def display_step():
             reset_app()
 
 display_step()
+
 
