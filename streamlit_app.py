@@ -34,7 +34,7 @@ st.markdown(
         background-color: #2a2a2a; /* Slightly lighter background for the container */
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5); /* Shadow for depth */
     }
-    .start-btn, .refresh-btn {
+    .start-btn, .next-btn, .back-btn, .refresh-btn {
         background-color: #4CAF50; /* Button color */
         color: white;
         padding: 12px 30px;
@@ -45,7 +45,7 @@ st.markdown(
         margin: 20px 0;
         transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
     }
-    .start-btn:hover, .refresh-btn:hover {
+    .start-btn:hover, .next-btn:hover, .back-btn:hover, .refresh-btn:hover {
         background-color: #45a049; /* Darker on hover */
         transform: scale(1.05); /* Slightly grow */
     }
@@ -91,7 +91,7 @@ if st.session_state.step == 0:
 if st.session_state.step == 1:
     st.markdown("<div class='container'><h3>Step 1: Pick your gender</h3></div>", unsafe_allow_html=True)
     gender = st.radio('Select Gender', ["Female", "Male"])
-    if st.button("Next (Age)"):
+    if st.button("Next (Age)", key='next1'):
         st.session_state.gender = 1 if gender == "Male" else 0
         st.session_state.step = 2
 
@@ -99,7 +99,7 @@ if st.session_state.step == 1:
 if st.session_state.step == 2:
     st.markdown("<div class='container'><h3>Step 2: Pick your age</h3></div>", unsafe_allow_html=True)
     age = st.slider('Select Age', 18, 70)
-    if st.button("Next (Annual Salary)"):
+    if st.button("Next (Annual Salary)", key='next2'):
         st.session_state.age = age
         st.session_state.step = 3
 
@@ -107,7 +107,7 @@ if st.session_state.step == 2:
 if st.session_state.step == 3:
     st.markdown("<div class='container'><h3>Step 3: Pick your annual salary</h3></div>", unsafe_allow_html=True)
     annual_income = st.slider('Select Annual Salary in Thousands', 15, 137)
-    if st.button("Next (Spending Score)"):
+    if st.button("Next (Spending Score)", key='next3'):
         st.session_state.annual_income = annual_income
         st.session_state.step = 4
 
@@ -148,4 +148,11 @@ if st.session_state.step == 5:
         unsafe_allow_html=True
     )
 
-    # No additional refresh button here, the image acts as the refresh button.
+    # Back button to go to the previous step
+    if st.session_state.step > 0:
+        if st.button("Back"):
+            st.session_state.step -= 1
+
+    # Reset Button to start over
+    if st.button("Start Over"):
+        reset_app()
