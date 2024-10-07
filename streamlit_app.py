@@ -59,6 +59,8 @@ if 'annual_income' not in st.session_state:
     st.session_state.annual_income = None
 if 'spending_score' not in st.session_state:
     st.session_state.spending_score = None
+if 'customer_group' not in st.session_state:
+    st.session_state.customer_group = None
 
 # Display the initial instructions and start button
 if not st.session_state.started:
@@ -73,7 +75,8 @@ if not st.session_state.started:
                 <li>Pick your annual salary in thousands of dollars</li>
                 <li>Pick your spending score</li>
             </ol>
-            """, 
+        </div>
+        """, 
         unsafe_allow_html=True
     )
     # Start button
@@ -116,23 +119,14 @@ if st.session_state.started:
             gender_numeric = 1 if st.session_state.gender == "Male" else 0
             user_input = np.array([[gender_numeric, st.session_state.age, st.session_state.annual_income, st.session_state.spending_score]])
             user_input_scaled = scaler.transform(user_input)
-            customer_group = model.predict(user_input_scaled)
+            st.session_state.customer_group = model.predict(user_input_scaled)[0]  # Save the prediction in session state
 
-            st.write('The 5 possible customer groups are: 0, 1, 2, 3, 4')    
-            st.text(f"Estimated group: {customer_group[0]}")
-            # Hide content after prediction
             st.session_state.current_step += 1
             st.stop()  # Stop to refresh the interface
 
     st.markdown("</div>", unsafe_allow_html=True)  # Closing the content div
 
-# Hide the entire content after all steps
+# After prediction, show the result and keep it visible
 if st.session_state.current_step > 3:
-    st.markdown(
-        """
-        <script>
-        document.getElementById('content').style.display='none';
-        </script>
-        """,
-        unsafe_allow_html=True
-    )
+    st.write('The 5 possible customer groups are: 0, 1, 2, 3, 4')    
+    st.text(f"Estimated group: {st.session_state.customer_group}")
