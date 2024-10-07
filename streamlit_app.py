@@ -18,13 +18,6 @@ st.markdown(
     h1, h2, h3, h4 {
         color: #4CAF50; /* Bright green for headings */
     }
-    .fade-in {
-        opacity: 0;
-        transition: opacity 2s ease-in;
-    }
-    .fade-in.visible {
-        opacity: 1;
-    }
     .container {
         text-align: center;
         margin: 50px auto;
@@ -60,12 +53,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Function to reset the app
-def reset_app():
-    for key in st.session_state.keys():
-        del st.session_state[key]
-    st.experimental_rerun()
-
 # Initial setup for session state to control the steps
 if 'step' not in st.session_state:
     st.session_state.step = 0
@@ -84,11 +71,10 @@ if st.session_state.step == 0:
         """,
         unsafe_allow_html=True
     )
-    # Create a placeholder for the Streamlit button
-    placeholder = st.empty()
-    with placeholder:
-        if st.button("Start", key='start'):
-            st.session_state.step = 1
+    
+    # Place the Streamlit button below the HTML button using a placeholder
+    if st.button("Start", key='start'):
+        st.session_state.step = 1
 
 # Step 1: Pick gender
 if st.session_state.step == 1:
@@ -102,7 +88,7 @@ if st.session_state.step == 1:
 if st.session_state.step == 2:
     st.markdown("<div class='container'><h3>Step 2: Pick your age</h3></div>", unsafe_allow_html=True)
     age = st.slider('Select Age', 18, 70)
-    if st.button("Next (Annual Salary)") :
+    if st.button("Next (Annual Salary)"):
         st.session_state.age = age
         st.session_state.step = 3
 
@@ -136,7 +122,7 @@ if st.session_state.step == 5:
     st.markdown("<div class='container'><h3>Prediction Result</h3></div>", unsafe_allow_html=True)
     st.write('The 5 possible customer groups are: 0, 1, 2, 3, 4')
     st.write(f"Estimated group: {st.session_state.prediction}")
-
+    
     # Display refresh image embedded as a clickable element using HTML
     st.markdown(
         """
