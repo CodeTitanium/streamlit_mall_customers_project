@@ -121,7 +121,7 @@ if st.session_state.step == 5:
         <div class="refresh-container">
             <form action="" method="get">
                 <button type="submit" style="background:none; border:none; padding:0;">
-                    <img src="https://th.bing.com/th/id/OIP.lL7833X02u4OMsgS68Qm0wHaHa?rs=1&pid=ImgDetMain" width="100" alt="Refresh" />
+                    <img src="https://www.freeiconspng.com/uploads/green-refresh-icon-png-11.png" width="100" alt="Refresh" />
                 </button>
             </form>
         </div>
