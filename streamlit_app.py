@@ -18,6 +18,13 @@ st.markdown(
     h1, h2, h3, h4 {
         color: #4CAF50; /* Bright green for headings */
     }
+    .fade-in {
+        opacity: 0;
+        transition: opacity 2s ease-in;
+    }
+    .fade-in.visible {
+        opacity: 1;
+    }
     .container {
         text-align: center;
         margin: 50px auto;
@@ -53,6 +60,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# Function to reset the app
+def reset_app():
+    for key in st.session_state.keys():
+        del st.session_state[key]
+    st.experimental_rerun()
+
 # Initial setup for session state to control the steps
 if 'step' not in st.session_state:
     st.session_state.step = 0
@@ -66,16 +79,12 @@ if st.session_state.step == 0:
         <div class="container">
             <h2>Welcome to the Customer Segmentation App</h2>
             <p>Click the button below to begin the process.</p>
-            <button class="start-btn" onclick="document.getElementById('start').click();">Let's Get Started</button>
-            <br>
-            <button class="start-btn" id="start" style="display:none;" onclick="window.location.reload();">Start</button>
+            <button class="start-btn" onclick="document.getElementById('content').classList.add('visible');">Let's Get Started</button>
         </div>
         """,
         unsafe_allow_html=True
     )
-    
-    # Trigger the step change using JavaScript
-    if st.button("Trigger Start", key='start'):
+    if st.button("Start"):
         st.session_state.step = 1
 
 # Step 1: Pick gender
@@ -138,3 +147,5 @@ if st.session_state.step == 5:
         """,
         unsafe_allow_html=True
     )
+
+    # No additional refresh button here, the image acts as the refresh button.
