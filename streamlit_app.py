@@ -42,7 +42,7 @@ st.markdown(
         border-radius: 25px; /* Rounded edges */
         font-size: 18px;
         cursor: pointer;
-        margin: 20px 0;
+        margin: 20px 10px; /* Adjusted margins for side-by-side buttons */
         transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
     }
     .start-btn:hover, .next-btn:hover, .back-btn:hover, .refresh-btn:hover {
@@ -91,42 +91,62 @@ if st.session_state.step == 0:
 if st.session_state.step == 1:
     st.markdown("<div class='container'><h3>Step 1: Pick your gender</h3></div>", unsafe_allow_html=True)
     gender = st.radio('Select Gender', ["Female", "Male"])
-    if st.button("Next (Age)", key='next1'):
-        st.session_state.gender = 1 if gender == "Male" else 0
-        st.session_state.step = 2
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Next (Age)", key='next1'):
+            st.session_state.gender = 1 if gender == "Male" else 0
+            st.session_state.step = 2
+    with col2:
+        if st.button("Back"):
+            st.session_state.step = 0
 
 # Step 2: Pick age
 if st.session_state.step == 2:
     st.markdown("<div class='container'><h3>Step 2: Pick your age</h3></div>", unsafe_allow_html=True)
     age = st.slider('Select Age', 18, 70)
-    if st.button("Next (Annual Salary)", key='next2'):
-        st.session_state.age = age
-        st.session_state.step = 3
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Next (Annual Salary)", key='next2'):
+            st.session_state.age = age
+            st.session_state.step = 3
+    with col2:
+        if st.button("Back"):
+            st.session_state.step = 1
 
 # Step 3: Pick annual income
 if st.session_state.step == 3:
     st.markdown("<div class='container'><h3>Step 3: Pick your annual salary</h3></div>", unsafe_allow_html=True)
     annual_income = st.slider('Select Annual Salary in Thousands', 15, 137)
-    if st.button("Next (Spending Score)", key='next3'):
-        st.session_state.annual_income = annual_income
-        st.session_state.step = 4
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Next (Spending Score)", key='next3'):
+            st.session_state.annual_income = annual_income
+            st.session_state.step = 4
+    with col2:
+        if st.button("Back"):
+            st.session_state.step = 2
 
 # Step 4: Pick spending score
 if st.session_state.step == 4:
     st.markdown("<div class='container'><h3>Step 4: Pick your spending score</h3></div>", unsafe_allow_html=True)
     spending_score = st.slider('Select Spending Score', 0, 100)
-    if st.button("Predict Customer Segment"):
-        st.session_state.spending_score = spending_score
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Predict Customer Segment"):
+            st.session_state.spending_score = spending_score
 
-        # Prepare user input for prediction
-        user_input = np.array([[st.session_state.gender, st.session_state.age, st.session_state.annual_income, st.session_state.spending_score]])
-        user_input_scaled = scaler.transform(user_input)
+            # Prepare user input for prediction
+            user_input = np.array([[st.session_state.gender, st.session_state.age, st.session_state.annual_income, st.session_state.spending_score]])
+            user_input_scaled = scaler.transform(user_input)
 
-        # Prediction
-        customer_group = model.predict(user_input_scaled)
-        st.session_state.predicted = True
-        st.session_state.prediction = customer_group[0]
-        st.session_state.step = 5
+            # Prediction
+            customer_group = model.predict(user_input_scaled)
+            st.session_state.predicted = True
+            st.session_state.prediction = customer_group[0]
+            st.session_state.step = 5
+    with col2:
+        if st.button("Back"):
+            st.session_state.step = 3
 
 # Display prediction and refresh image button
 if st.session_state.step == 5:
@@ -148,11 +168,4 @@ if st.session_state.step == 5:
         unsafe_allow_html=True
     )
 
-    # Back button to go to the previous step
-    if st.session_state.step > 0:
-        if st.button("Back"):
-            st.session_state.step -= 1
-
-    # Reset Button to start over
-    if st.button("Start Over"):
-        reset_app()
+    # No additional refresh button here; the image acts as the refresh button.
