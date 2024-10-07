@@ -34,20 +34,23 @@ st.markdown(
         background-color: #2a2a2a; /* Slightly lighter background for the container */
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5); /* Shadow for depth */
     }
-    .start-btn, .refresh-btn {
-        background-color: #4CAF50; /* Button color */
-        color: white;
-        padding: 12px 30px;
+    .start-btn {
+        background-color: transparent; /* Transparent button */
         border: none;
-        border-radius: 25px; /* Rounded edges */
-        font-size: 18px;
         cursor: pointer;
-        margin: 20px 0;
-        transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+        position: absolute; /* Position over the image */
+        bottom: 20px; /* Position at the bottom */
+        left: 50%;
+        transform: translateX(-50%); /* Center the button */
+        font-size: 18px; /* Font size */
+        color: white; /* Button text color */
+        text-align: center;
     }
-    .start-btn:hover, .refresh-btn:hover {
-        background-color: #45a049; /* Darker on hover */
-        transform: scale(1.05); /* Slightly grow */
+    .start-btn:hover {
+        color: #4CAF50; /* Change color on hover */
+    }
+    .image-container {
+        position: relative; /* Container for image and button */
     }
     .refresh-container img {
         cursor: pointer;
@@ -76,15 +79,17 @@ if 'predicted' not in st.session_state:
 if st.session_state.step == 0:
     st.markdown(
         """
-        <div class="container">
+        <div class="container image-container">
             <h2>Welcome to the Customer Segmentation App</h2>
             <p>Click the button below to begin the process.</p>
+            <img src="https://www.freeiconspng.com/uploads/green-refresh-icon-png-11.png" alt="Let's Get Started" width="300">
             <button class="start-btn" onclick="document.getElementById('content').classList.add('visible');">Let's Get Started</button>
         </div>
         """,
         unsafe_allow_html=True
     )
-    if st.button("Start"):
+    
+    if st.button("Let's Get Started"):
         st.session_state.step = 1
 
 # Step 1: Pick gender
