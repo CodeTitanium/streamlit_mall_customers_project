@@ -79,13 +79,16 @@ if st.session_state.step == 0:
         <div class="container">
             <h2>Welcome to the Customer Segmentation App</h2>
             <p>Click the button below to begin the process.</p>
-            <button class="start-btn" onclick="document.getElementById('content').classList.add('visible');">Let's Get Started</button>
+            <button class="start-btn" onclick="document.getElementById('start').click();">Let's Get Started</button>
         </div>
         """,
         unsafe_allow_html=True
     )
-    if st.button("Start"):
-        st.session_state.step = 1
+    # Create a placeholder for the Streamlit button
+    placeholder = st.empty()
+    with placeholder:
+        if st.button("Start", key='start'):
+            st.session_state.step = 1
 
 # Step 1: Pick gender
 if st.session_state.step == 1:
@@ -99,7 +102,7 @@ if st.session_state.step == 1:
 if st.session_state.step == 2:
     st.markdown("<div class='container'><h3>Step 2: Pick your age</h3></div>", unsafe_allow_html=True)
     age = st.slider('Select Age', 18, 70)
-    if st.button("Next (Annual Salary)"):
+    if st.button("Next (Annual Salary)") :
         st.session_state.age = age
         st.session_state.step = 3
 
@@ -133,7 +136,7 @@ if st.session_state.step == 5:
     st.markdown("<div class='container'><h3>Prediction Result</h3></div>", unsafe_allow_html=True)
     st.write('The 5 possible customer groups are: 0, 1, 2, 3, 4')
     st.write(f"Estimated group: {st.session_state.prediction}")
-    
+
     # Display refresh image embedded as a clickable element using HTML
     st.markdown(
         """
@@ -148,4 +151,3 @@ if st.session_state.step == 5:
         unsafe_allow_html=True
     )
 
-    # No additional refresh button here, the image acts as the refresh button.
