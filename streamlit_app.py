@@ -6,13 +6,13 @@ import streamlit as st
 model = pickle.load(open('model.pkl', 'rb'))
 scaler = pickle.load(open('scaler.sav', 'rb'))
 
-# CSS for transitions, button styles, and light orange background color
+# CSS for transitions and button styles
 st.markdown(
     """
     <style>
     body {
-        background-color: #FFE5B4;  /* Light orange background color */
-        color: #333333;  /* Dark text for contrast */
+        background-color: #1a1a1a;  /* Dark background */
+        color: #f0f0f0;  /* Light text color */
         font-family: 'Arial', sans-serif; /* Modern font */
     }
     h1, h2, h3, h4 {
@@ -31,8 +31,8 @@ st.markdown(
         max-width: 600px;  /* Centered container */
         padding: 20px;
         border-radius: 10px;
-        background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white background for the container */
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+        background-color: #2a2a2a; /* Slightly lighter background for the container */
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5); /* Shadow for depth */
     }
     .start-btn, .refresh-btn {
         background-color: #4CAF50; /* Button color */
@@ -145,5 +145,6 @@ if st.session_state.step == 5:
     # Display refresh button
     if st.button("Refresh"):
         reset_app()
+
 
 
