@@ -76,9 +76,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Add logo image
-st.image("https://github.com/CodeTitanium/streamlit_mall_customers_project/blob/main/WhatsApp%20Image%202024-10-08%20at%2011.12.57_2040f5dc.jpg", use_column_width=True)  # Replace with your logo's path
-
 # Function to reset the app
 def reset_app():
     for key in st.session_state.keys():
@@ -90,6 +87,9 @@ if 'step' not in st.session_state:
     st.session_state.step = 0
 if 'predicted' not in st.session_state:
     st.session_state.predicted = False
+
+# Dictionary to store customers in each division
+customer_divisions = {i: [] for i in range(5)}
 
 # Collect user name and email
 if st.session_state.step == 0:
@@ -159,6 +159,13 @@ if st.session_state.step == 5:
         customer_group = model.predict(user_input_scaled)
         st.session_state.predicted = True
         st.session_state.prediction = customer_group[0]
+        
+        # Store customer name and email in the appropriate division
+        customer_divisions[st.session_state.prediction].append({
+            "name": st.session_state.name,
+            "email": st.session_state.email
+        })
+        
         st.session_state.step = 6
 
 # Display only the predicted outcome
@@ -183,7 +190,12 @@ if st.session_state.step == 6:
     for i, label in enumerate(division_labels):
         if st.button(f"{label} ({group_symbols[i]})"):
             st.markdown(f"<div class='container'><h3>Customers in {label}</h3></div>", unsafe_allow_html=True)
-            st.write(f"Customer {st.session_state.name} belongs to {label} ({group_symbols[i]}).")
+            # Display customers in the selected division
+            if customer_divisions[i]:
+                for customer in customer_divisions[i]:
+                    st.write(f"Name: {customer['name']}, Email: {customer['email']}")
+            else:
+                st.write("No customers in this division yet.")
 
     # Display refresh image embedded as a clickable element using HTML
     st.markdown(
@@ -198,4 +210,3 @@ if st.session_state.step == 6:
         """,
         unsafe_allow_html=True
     )
-
