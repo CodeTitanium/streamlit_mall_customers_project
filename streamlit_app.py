@@ -195,4 +195,3 @@ if st.session_state.step == 6:
         """,
         unsafe_allow_html=True
     )
-
