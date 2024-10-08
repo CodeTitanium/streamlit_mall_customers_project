@@ -6,12 +6,14 @@ import streamlit as st
 model = pickle.load(open('model.pkl', 'rb'))
 scaler = pickle.load(open('scaler.sav', 'rb'))
 
-# CSS for transitions and button styles
+# CSS for transitions, button styles, and background image
 st.markdown(
     """
     <style>
     body {
-        background-color: #1a1a1a;  /* Dark background */
+        background-image: url('background_image.jpg');  /* Set background image */
+        background-size: cover;  /* Cover the entire screen */
+        background-position: center;  /* Center the background */
         color: #f0f0f0;  /* Light text color */
         font-family: 'Arial', sans-serif; /* Modern font */
     }
@@ -31,7 +33,7 @@ st.markdown(
         max-width: 600px;  /* Centered container */
         padding: 20px;
         border-radius: 10px;
-        background-color: #2a2a2a; /* Slightly lighter background for the container */
+        background-color: rgba(42, 42, 42, 0.8); /* Slightly lighter, semi-transparent background for the container */
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5); /* Shadow for depth */
     }
     .start-btn, .refresh-btn {
@@ -105,44 +107,5 @@ if st.session_state.step == 2:
 
 # Step 3: Pick annual income
 if st.session_state.step == 3:
-    st.markdown("<div class='container'><h3>Step 3: Pick your annual salary</h3></div>", unsafe_allow_html=True)
-    annual_income = st.slider('Select Annual Salary in Thousands', 15, 137)
-    if st.button("Next (Spending Score)"):
-        st.session_state.annual_income = annual_income
-        st.session_state.step = 4
-
-# Step 4: Pick spending score
-if st.session_state.step == 4:
-    st.markdown("<div class='container'><h3>Step 4: Pick your spending score</h3></div>", unsafe_allow_html=True)
-    spending_score = st.slider('Select Spending Score', 0, 100)
-    if st.button("Predict Customer Segment"):
-        st.session_state.spending_score = spending_score
-
-        # Prepare user input for prediction
-        user_input = np.array([[st.session_state.gender, st.session_state.age, st.session_state.annual_income, st.session_state.spending_score]])
-        user_input_scaled = scaler.transform(user_input)
-
-        # Prediction
-        customer_group = model.predict(user_input_scaled)
-        st.session_state.predicted = True
-        st.session_state.prediction = customer_group[0]
-        st.session_state.step = 5
-
-# Mapping of customer segments to emojis
-segment_map = {
-    0: "🥉",
-    1: "🥈",
-    2: "🥇",
-    3: "🪙",
-    4: "💎"
-}
-
-# Display prediction and refresh button
-if st.session_state.step == 5:
-    st.markdown("<div class='container'><h3>Your Customer Segment</h3></div>", unsafe_allow_html=True)
-    st.write(f"Estimated group: {segment_map[st.session_state.prediction]}")
-    
-    # Display refresh button
-    if st.button("Refresh"):
-        reset_app()
+    st.markdown("<div class='container'><h3>Step 3: Pick your annual salary</
 
