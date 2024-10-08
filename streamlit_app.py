@@ -128,11 +128,17 @@ if st.session_state.step == 4:
         st.session_state.prediction = customer_group[0]
         st.session_state.step = 5
 
-# Display prediction and refresh image button
+# Display prediction with emojis and refresh image button
 if st.session_state.step == 5:
-    st.markdown("<div class='container'><h3>Prediction Result</h3></div>", unsafe_allow_html=True)
-    st.write('The 5 possible customer groups are: 🥉, 🥈, 🥇, 🪙, 💎')
-    st.write(f"Estimated group: {st.session_state.prediction}")
+    group_symbols = {
+        0: "🥉",
+        1: "🥈",
+        2: "🥇",
+        3: "🪙",
+        4: "💎"
+    }
+    symbol = group_symbols.get(st.session_state.prediction, "Unknown")
+    st.markdown(f"<div class='container'><h3>Your Customer Segment: {symbol}</h3></div>", unsafe_allow_html=True)
     
     # Display refresh image embedded as a clickable element using HTML
     st.markdown(
@@ -147,3 +153,4 @@ if st.session_state.step == 5:
         """,
         unsafe_allow_html=True
     )
+
