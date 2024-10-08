@@ -1,33 +1,42 @@
 import pickle
 import numpy as np
 import streamlit as st
+import base64
 
 # Load model and scaler
 model = pickle.load(open('model.pkl', 'rb'))
 scaler = pickle.load(open('scaler.sav', 'rb'))
 
+# Function to encode image to base64
+def get_base64_image(image_file):
+    with open(image_file, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+# Load background image
+background_image = get_base64_image('background_image.jpg')
+
 # CSS for transitions, button styles, and background image
 st.markdown(
-    """
+    f"""
     <style>
-    body {
-        background-image: url('background_image.jpg');  /* Set background image */
+    body {{
+        background-image: url("data:image/jpg;base64,{background_image}");  /* Set background image */
         background-size: cover;  /* Cover the entire screen */
         background-position: center;  /* Center the background */
         color: #f0f0f0;  /* Light text color */
         font-family: 'Arial', sans-serif; /* Modern font */
-    }
-    h1, h2, h3, h4 {
+    }}
+    h1, h2, h3, h4 {{
         color: #4CAF50; /* Bright green for headings */
-    }
-    .fade-in {
+    }}
+    .fade-in {{
         opacity: 0;
         transition: opacity 2s ease-in;
-    }
-    .fade-in.visible {
+    }}
+    .fade-in.visible {{
         opacity: 1;
-    }
-    .container {
+    }}
+    .container {{
         text-align: center;
         margin: 50px auto;
         max-width: 600px;  /* Centered container */
@@ -35,8 +44,8 @@ st.markdown(
         border-radius: 10px;
         background-color: rgba(42, 42, 42, 0.8); /* Slightly lighter, semi-transparent background for the container */
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5); /* Shadow for depth */
-    }
-    .start-btn, .refresh-btn {
+    }}
+    .start-btn, .refresh-btn {{
         background-color: #4CAF50; /* Button color */
         color: white;
         padding: 12px 30px;
@@ -46,17 +55,17 @@ st.markdown(
         cursor: pointer;
         margin: 20px 0;
         transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
-    }
-    .start-btn:hover, .refresh-btn:hover {
+    }}
+    .start-btn:hover, .refresh-btn:hover {{
         background-color: #45a049; /* Darker on hover */
         transform: scale(1.05); /* Slightly grow */
-    }
-    .refresh-container img {
+    }}
+    .refresh-container img {{
         cursor: pointer;
         background: none;
         border: none;
         width: 60px; /* Set refresh icon size */
-    }
+    }}
     </style>
     """,
     unsafe_allow_html=True
@@ -107,5 +116,44 @@ if st.session_state.step == 2:
 
 # Step 3: Pick annual income
 if st.session_state.step == 3:
-    st.markdown("<div class='container'><h3>Step 3: Pick your annual salary</
+    st.markdown("<div class='container'><h3>Step 3: Pick your annual salary</h3></div>", unsafe_allow_html=True)
+    annual_income = st.slider('Select Annual Salary in Thousands', 15, 137)
+    if st.button("Next (Spending Score)"):
+        st.session_state.annual_income = annual_income
+        st.session_state.step = 4
+
+# Step 4: Pick spending score
+if st.session_state.step == 4:
+    st.markdown("<div class='container'><h3>Step 4: Pick your spending score</h3></div>", unsafe_allow_html=True)
+    spending_score = st.slider('Select Spending Score', 0, 100)
+    if st.button("Predict Customer Segment"):
+        st.session_state.spending_score = spending_score
+
+        # Prepare user input for prediction
+        user_input = np.array([[st.session_state.gender, st.session_state.age, st.session_state.annual_income, st.session_state.spending_score]])
+        user_input_scaled = scaler.transform(user_input)
+
+        # Prediction
+        customer_group = model.predict(user_input_scaled)
+        st.session_state.predicted = True
+        st.session_state.prediction = customer_group[0]
+        st.session_state.step = 5
+
+# Mapping of customer segments to emojis
+segment_map = {
+    0: "🥉",
+    1: "🥈",
+    2: "🥇",
+    3: "🪙",
+    4: "💎"
+}
+
+# Display prediction and refresh button
+if st.session_state.step == 5:
+    st.markdown("<div class='container'><h3>Your Customer Segment</h3></div>", unsafe_allow_html=True)
+    st.write(f"Estimated group: {segment_map[st.session_state.prediction]}")
+    
+    # Display refresh button
+    if st.button("Refresh"):
+        reset_app()
 
