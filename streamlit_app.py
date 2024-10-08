@@ -76,6 +76,9 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# Add logo image
+st.image("https://github.com/CodeTitanium/streamlit_mall_customers_project/blob/main/WhatsApp%20Image%202024-10-08%20at%2011.12.57_2040f5dc.jpg", use_column_width=True)  # Replace with your logo's path
+
 # Function to reset the app
 def reset_app():
     for key in st.session_state.keys():
@@ -108,7 +111,7 @@ if st.session_state.step == 1:
         f"""
         <div class="container">
             <h2>Welcome, {st.session_state.name}</h2>
-            <p><span style="color: #4CAF50;">Click the button below to begin the customer segmentation process.</span></p>
+            <p style="color: #4CAF50;">Click the button below to begin the customer segmentation process.</p>
             <button class="start-btn" onclick="document.getElementById('content').classList.add('visible');">Let's Get Started</button>
         </div>
         """,
@@ -121,7 +124,7 @@ if st.session_state.step == 1:
 if st.session_state.step == 2:
     st.markdown("<div class='container'><h3>Step 1: Pick your gender</h3></div>", unsafe_allow_html=True)
     gender = st.radio('Select Gender', ["Female", "Male"])
-    if st.button("Next (Age)") :
+    if st.button("Next (Age)"):
         st.session_state.gender = 1 if gender == "Male" else 0
         st.session_state.step = 3
 
