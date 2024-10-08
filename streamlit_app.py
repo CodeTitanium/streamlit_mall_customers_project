@@ -55,6 +55,22 @@ st.markdown(
         border: none;
         width: 60px; /* Set refresh icon size */
     }
+    .segment-btn {
+        background-color: #2a2a2a;
+        color: #f0f0f0;
+        padding: 15px;
+        border: 2px solid #4CAF50;
+        border-radius: 10px;
+        margin: 10px;
+        width: 100%;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+    .segment-btn:hover {
+        background-color: #45a049;
+        transform: scale(1.05);
+    }
     </style>
     """,
     unsafe_allow_html=True
@@ -72,47 +88,61 @@ if 'step' not in st.session_state:
 if 'predicted' not in st.session_state:
     st.session_state.predicted = False
 
-# Start Button
+# Collect user name and email
 if st.session_state.step == 0:
+    st.markdown("<div class='container'><h2>Enter Your Details</h2></div>", unsafe_allow_html=True)
+    name = st.text_input("Enter your name")
+    email = st.text_input("Enter your email")
+    
+    if st.button("Submit"):
+        if name and email:
+            st.session_state.name = name
+            st.session_state.email = email
+            st.session_state.step = 1
+        else:
+            st.warning("Please enter both name and email.")
+
+# Start Button
+if st.session_state.step == 1:
     st.markdown(
-        """
+        f"""
         <div class="container">
-            <h2>Welcome to the Customer Segmentation App</h2>
-            <p>Click the button below to begin the process.</p>
+            <h2>Welcome, {st.session_state.name}</h2>
+            <p>Click the button below to begin the customer segmentation process.</p>
             <button class="start-btn" onclick="document.getElementById('content').classList.add('visible');">Let's Get Started</button>
         </div>
         """,
         unsafe_allow_html=True
     )
     if st.button("Start"):
-        st.session_state.step = 1
+        st.session_state.step = 2
 
 # Step 1: Pick gender
-if st.session_state.step == 1:
+if st.session_state.step == 2:
     st.markdown("<div class='container'><h3>Step 1: Pick your gender</h3></div>", unsafe_allow_html=True)
     gender = st.radio('Select Gender', ["Female", "Male"])
     if st.button("Next (Age)"):
         st.session_state.gender = 1 if gender == "Male" else 0
-        st.session_state.step = 2
+        st.session_state.step = 3
 
 # Step 2: Pick age
-if st.session_state.step == 2:
+if st.session_state.step == 3:
     st.markdown("<div class='container'><h3>Step 2: Pick your age</h3></div>", unsafe_allow_html=True)
     age = st.slider('Select Age', 18, 70)
     if st.button("Next (Annual Salary)"):
         st.session_state.age = age
-        st.session_state.step = 3
+        st.session_state.step = 4
 
 # Step 3: Pick annual income
-if st.session_state.step == 3:
+if st.session_state.step == 4:
     st.markdown("<div class='container'><h3>Step 3: Pick your annual salary</h3></div>", unsafe_allow_html=True)
     annual_income = st.slider('Select Annual Salary in Thousands', 15, 137)
     if st.button("Next (Spending Score)"):
         st.session_state.annual_income = annual_income
-        st.session_state.step = 4
+        st.session_state.step = 5
 
 # Step 4: Pick spending score
-if st.session_state.step == 4:
+if st.session_state.step == 5:
     st.markdown("<div class='container'><h3>Step 4: Pick your spending score</h3></div>", unsafe_allow_html=True)
     spending_score = st.slider('Select Spending Score', 0, 100)
     if st.button("Predict Customer Segment"):
@@ -126,10 +156,12 @@ if st.session_state.step == 4:
         customer_group = model.predict(user_input_scaled)
         st.session_state.predicted = True
         st.session_state.prediction = customer_group[0]
-        st.session_state.step = 5
+        st.session_state.step = 6
 
-# Display prediction with emojis and refresh image button
-if st.session_state.step == 5:
+# Display divisions and customer segmentation
+if st.session_state.step == 6:
+    st.markdown("<div class='container'><h3>Select a Division to View Customers</h3></div>", unsafe_allow_html=True)
+    
     group_symbols = {
         0: "🥉",
         1: "🥈",
@@ -137,9 +169,14 @@ if st.session_state.step == 5:
         3: "🪙",
         4: "💎"
     }
-    symbol = group_symbols.get(st.session_state.prediction, "Unknown")
-    st.markdown(f"<div class='container'><h3>Your Customer Segment: {symbol}</h3></div>", unsafe_allow_html=True)
+
+    division_labels = ["Division 1", "Division 2", "Division 3", "Division 4", "Division 5"]
     
+    for i, label in enumerate(division_labels):
+        if st.button(f"{label} ({group_symbols[i]})"):
+            st.markdown(f"<div class='container'><h3>Customers in {label}</h3></div>", unsafe_allow_html=True)
+            st.write(f"Customer {st.session_state.name} belongs to {label} ({group_symbols[i]}).")
+
     # Display refresh image embedded as a clickable element using HTML
     st.markdown(
         """
