@@ -88,6 +88,9 @@ if 'step' not in st.session_state:
 if 'predicted' not in st.session_state:
     st.session_state.predicted = False
 
+# Dictionary to store customers in each division
+customer_divisions = {i: [] for i in range(5)}
+
 # Collect user name and email
 if st.session_state.step == 0:
     st.markdown("<div class='container'><h2>Enter Your Details</h2></div>", unsafe_allow_html=True)
@@ -156,6 +159,13 @@ if st.session_state.step == 5:
         customer_group = model.predict(user_input_scaled)
         st.session_state.predicted = True
         st.session_state.prediction = customer_group[0]
+        
+        # Store customer name and email in the appropriate division
+        customer_divisions[st.session_state.prediction].append({
+            "name": st.session_state.name,
+            "email": st.session_state.email
+        })
+        
         st.session_state.step = 6
 
 # Display only the predicted outcome
@@ -180,7 +190,9 @@ if st.session_state.step == 6:
     for i, label in enumerate(division_labels):
         if st.button(f"{label} ({group_symbols[i]})"):
             st.markdown(f"<div class='container'><h3>Customers in {label}</h3></div>", unsafe_allow_html=True)
-            st.write(f"Customer {st.session_state.name} belongs to {label} ({group_symbols[i]}).")
+            # Display customers in the selected division
+            for customer in customer_divisions[i]:
+                st.write(f"Name: {customer['name']}, Email: {customer['email']}")
 
     # Display refresh image embedded as a clickable element using HTML
     st.markdown(
