@@ -191,8 +191,11 @@ if st.session_state.step == 6:
         if st.button(f"{label} ({group_symbols[i]})"):
             st.markdown(f"<div class='container'><h3>Customers in {label}</h3></div>", unsafe_allow_html=True)
             # Display customers in the selected division
-            for customer in customer_divisions[i]:
-                st.write(f"Name: {customer['name']}, Email: {customer['email']}")
+            if customer_divisions[i]:
+                for customer in customer_divisions[i]:
+                    st.write(f"Name: {customer['name']}, Email: {customer['email']}")
+            else:
+                st.write("No customers in this division yet.")
 
     # Display refresh image embedded as a clickable element using HTML
     st.markdown(
