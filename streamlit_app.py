@@ -18,13 +18,6 @@ st.markdown(
     h1, h2, h3, h4 {
         color: #4CAF50; /* Bright green for headings */
     }
-    .fade-in {
-        opacity: 0;
-        transition: opacity 2s ease-in;
-    }
-    .fade-in.visible {
-        opacity: 1;
-    }
     .container {
         text-align: center;
         margin: 50px auto;
@@ -158,10 +151,8 @@ if st.session_state.step == 5:
         st.session_state.prediction = customer_group[0]
         st.session_state.step = 6
 
-# Display divisions and customer segmentation
+# Display only the predicted outcome
 if st.session_state.step == 6:
-    st.markdown("<div class='container'><h3>Select a Division to View Customers</h3></div>", unsafe_allow_html=True)
-    
     group_symbols = {
         0: "🥉",
         1: "🥈",
@@ -170,12 +161,20 @@ if st.session_state.step == 6:
         4: "💎"
     }
 
+    predicted_group = st.session_state.prediction
+    st.markdown("<div class='container'><h3>Your Customer Segment</h3></div>", unsafe_allow_html=True)
+    st.write(f"Congratulations, {st.session_state.name}, you belong to customer group {predicted_group} {group_symbols[predicted_group]}!")
+
+    # Option to view divisions
+    st.markdown("<div class='container'><h3>Select a Division to View Customers</h3></div>", unsafe_allow_html=True)
+    
     division_labels = ["Division 1", "Division 2", "Division 3", "Division 4", "Division 5"]
     
     for i, label in enumerate(division_labels):
         if st.button(f"{label} ({group_symbols[i]})"):
             st.markdown(f"<div class='container'><h3>Customers in {label}</h3></div>", unsafe_allow_html=True)
             st.write(f"Customer {st.session_state.name} belongs to {label} ({group_symbols[i]}).")
+            # Here you could display more details about customers in this division
 
     # Display refresh image embedded as a clickable element using HTML
     st.markdown(
