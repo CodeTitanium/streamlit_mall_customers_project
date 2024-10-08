@@ -128,24 +128,12 @@ if st.session_state.step == 4:
         st.session_state.prediction = customer_group[0]
         st.session_state.step = 5
 
-# Display prediction and refresh image button
+# Display prediction and refresh button
 if st.session_state.step == 5:
-    st.markdown("<div class='container'><h3>Prediction Result</h3></div>", unsafe_allow_html=True)
-    st.write('The 5 possible customer groups are: 0, 1, 2, 3, 4')
+    st.markdown("<div class='container'><h3>Your Customer Segment</h3></div>", unsafe_allow_html=True)
     st.write(f"Estimated group: {st.session_state.prediction}")
     
-    # Display refresh image embedded as a clickable element using HTML
-    st.markdown(
-        """
-        <div class="refresh-container">
-            <form action="" method="get">
-                <button type="submit" style="background:none; border:none; padding:0;">
-                    <img src="https://www.freeiconspng.com/uploads/green-refresh-icon-png-11.png" alt="Refresh" />
-                </button>
-            </form>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    # Display refresh button
+    if st.button("Refresh"):
+        reset_app()
 
-    # No additional refresh button here, the image acts as the refresh button.
