@@ -11,9 +11,10 @@ st.markdown(
     """
     <style>
     body {
-        background-image: url("https://img.freepik.com/free-photo/blur-shopping-mall_1203-8327.jpg");  /* Set background image from URL */
+        background-image: url("https://ak1.picdn.net/shutterstock/videos/26637301/thumb/1.jpg");  /* Set background image from URL */
         background-size: cover;  /* Cover the entire screen */
         background-position: center;  /* Center the background */
+        background-repeat: no-repeat; /* Prevent repetition of the background */
         color: #f0f0f0;  /* Light text color */
         font-family: 'Arial', sans-serif; /* Modern font */
     }
