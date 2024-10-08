@@ -1,7 +1,6 @@
 import pickle
 import numpy as np
 import streamlit as st
-from PIL import Image
 
 # Load model and scaler
 model = pickle.load(open('model.pkl', 'rb'))
@@ -76,10 +75,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-# Load and display the logo at the center of the homepage
-logo = Image.open("/mnt/data/logo.jpg")
-st.image(logo, caption="Cauchyy Software Solutions", use_column_width=True)
 
 # Function to reset the app
 def reset_app():
