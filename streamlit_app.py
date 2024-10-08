@@ -6,16 +6,13 @@ import streamlit as st
 model = pickle.load(open('model.pkl', 'rb'))
 scaler = pickle.load(open('scaler.sav', 'rb'))
 
-# CSS for transitions, button styles, and background image
+# CSS for transitions, button styles, and warm background color
 st.markdown(
     """
     <style>
     body {
-        background-image: url("https://ak1.picdn.net/shutterstock/videos/26637301/thumb/1.jpg");  /* Set background image from URL */
-        background-size: cover;  /* Cover the entire screen */
-        background-position: center;  /* Center the background */
-        background-repeat: no-repeat; /* Prevent repetition of the background */
-        color: #f0f0f0;  /* Light text color */
+        background-color: #fdf6e3;  /* Warm color close to white */
+        color: #333333;  /* Dark text for contrast */
         font-family: 'Arial', sans-serif; /* Modern font */
     }
     h1, h2, h3, h4 {
@@ -34,8 +31,8 @@ st.markdown(
         max-width: 600px;  /* Centered container */
         padding: 20px;
         border-radius: 10px;
-        background-color: rgba(42, 42, 42, 0.8); /* Slightly darker, semi-transparent background for the container */
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+        background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white background for the container */
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
     }
     .start-btn, .refresh-btn {
         background-color: #4CAF50; /* Button color */
@@ -148,3 +145,4 @@ if st.session_state.step == 5:
     # Display refresh button
     if st.button("Refresh"):
         reset_app()
+
