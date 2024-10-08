@@ -55,6 +55,22 @@ st.markdown(
         border: none;
         width: 60px; /* Set refresh icon size */
     }
+    .segment-btn {
+        background-color: #2a2a2a;
+        color: #f0f0f0;
+        padding: 15px;
+        border: 2px solid #4CAF50;
+        border-radius: 10px;
+        margin: 10px;
+        width: 100%;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+    .segment-btn:hover {
+        background-color: #45a049;
+        transform: scale(1.05);
+    }
     </style>
     """,
     unsafe_allow_html=True
@@ -142,8 +158,10 @@ if st.session_state.step == 5:
         st.session_state.prediction = customer_group[0]
         st.session_state.step = 6
 
-# Display only the predicted outcome
+# Display divisions and customer segmentation
 if st.session_state.step == 6:
+    st.markdown("<div class='container'><h3>Select a Division to View Customers</h3></div>", unsafe_allow_html=True)
+    
     group_symbols = {
         0: "🥉",
         1: "🥈",
@@ -152,9 +170,12 @@ if st.session_state.step == 6:
         4: "💎"
     }
 
-    predicted_group = st.session_state.prediction
-    st.markdown(f"<div class='container'><h3>Your Customer Segment</h3></div>", unsafe_allow_html=True)
-    st.write(f"Congratulations, {st.session_state.name}, you belong to customer group {predicted_group} {group_symbols[predicted_group]}!")
+    division_labels = ["Division 1", "Division 2", "Division 3", "Division 4", "Division 5"]
+    
+    for i, label in enumerate(division_labels):
+        if st.button(f"{label} ({group_symbols[i]})"):
+            st.markdown(f"<div class='container'><h3>Customers in {label}</h3></div>", unsafe_allow_html=True)
+            st.write(f"Customer {st.session_state.name} belongs to {label} ({group_symbols[i]}).")
 
     # Display refresh image embedded as a clickable element using HTML
     st.markdown(
