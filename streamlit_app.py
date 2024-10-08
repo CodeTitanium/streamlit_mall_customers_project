@@ -146,5 +146,3 @@ if st.session_state.step == 5:
     if st.button("Refresh"):
         reset_app()
 
-
-
