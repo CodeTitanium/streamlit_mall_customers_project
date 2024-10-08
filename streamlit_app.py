@@ -154,7 +154,7 @@ if st.session_state.step == 6:
 
     predicted_group = st.session_state.prediction
     st.markdown(f"<div class='container'><h3>Your Customer Segment</h3></div>", unsafe_allow_html=True)
-    st.write(f"Congratulations, {st.session_state.name}, you belong to customer group {predicted_group} {group_symbols[predicted_group]}!")
+    st.write(f"Congratulations, {st.session_state.name}, you belong to customer group {group_symbols[predicted_group]}!")
 
     # Display refresh image embedded as a clickable element using HTML
     st.markdown(
