@@ -108,7 +108,7 @@ if st.session_state.step == 1:
         f"""
         <div class="container">
             <h2>Welcome, {st.session_state.name}</h2>
-            <p>Click the button below to begin the customer segmentation process.</p>
+            <p><span style="color: #4CAF50;">Click the button below to begin the customer segmentation process.</span></p>
             <button class="start-btn" onclick="document.getElementById('content').classList.add('visible');">Let's Get Started</button>
         </div>
         """,
@@ -121,7 +121,7 @@ if st.session_state.step == 1:
 if st.session_state.step == 2:
     st.markdown("<div class='container'><h3>Step 1: Pick your gender</h3></div>", unsafe_allow_html=True)
     gender = st.radio('Select Gender', ["Female", "Male"])
-    if st.button("Next (Age)"):
+    if st.button("Next (Age)") :
         st.session_state.gender = 1 if gender == "Male" else 0
         st.session_state.step = 3
 
@@ -195,3 +195,4 @@ if st.session_state.step == 6:
         """,
         unsafe_allow_html=True
     )
+
