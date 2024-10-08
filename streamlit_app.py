@@ -88,10 +88,6 @@ if 'step' not in st.session_state:
 if 'predicted' not in st.session_state:
     st.session_state.predicted = False
 
-# Initialize a dictionary to store customer names and emails based on their predicted group
-if 'customer_data' not in st.session_state:
-    st.session_state.customer_data = {i: [] for i in range(5)}  # Create empty lists for each division
-
 # Collect user name and email
 if st.session_state.step == 0:
     st.markdown("<div class='container'><h2>Enter Your Details</h2></div>", unsafe_allow_html=True)
@@ -112,7 +108,7 @@ if st.session_state.step == 1:
         f"""
         <div class="container">
             <h2>Welcome, {st.session_state.name}</h2>
-            <p>Click the button below to begin the customer segmentation process.</p>
+            <p style="color: #4CAF50;">Click the button below to begin the customer segmentation process.</p>
             <button class="start-btn" onclick="document.getElementById('content').classList.add('visible');">Let's Get Started</button>
         </div>
         """,
@@ -159,11 +155,7 @@ if st.session_state.step == 5:
         # Prediction
         customer_group = model.predict(user_input_scaled)
         st.session_state.predicted = True
-        predicted_group = customer_group[0]
-
-        # Store customer details in the appropriate division
-        st.session_state.customer_data[predicted_group].append((st.session_state.name, st.session_state.email))
-        st.session_state.prediction = predicted_group
+        st.session_state.prediction = customer_group[0]
         st.session_state.step = 6
 
 # Display only the predicted outcome
@@ -188,12 +180,7 @@ if st.session_state.step == 6:
     for i, label in enumerate(division_labels):
         if st.button(f"{label} ({group_symbols[i]})"):
             st.markdown(f"<div class='container'><h3>Customers in {label}</h3></div>", unsafe_allow_html=True)
-            customers = st.session_state.customer_data[i]
-            if customers:
-                for customer in customers:
-                    st.write(f"Name: {customer[0]}, Email: {customer[1]}")
-            else:
-                st.write("No customers in this division.")
+            st.write(f"Customer {st.session_state.name} belongs to {label} ({group_symbols[i]}).")
 
     # Display refresh image embedded as a clickable element using HTML
     st.markdown(
