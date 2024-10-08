@@ -128,11 +128,21 @@ if st.session_state.step == 4:
         st.session_state.prediction = customer_group[0]
         st.session_state.step = 5
 
+# Mapping of customer segments to emojis
+segment_map = {
+    0: "🥉",
+    1: "🥈",
+    2: "🥇",
+    3: "🪙",
+    4: "💎"
+}
+
 # Display prediction and refresh button
 if st.session_state.step == 5:
     st.markdown("<div class='container'><h3>Your Customer Segment</h3></div>", unsafe_allow_html=True)
-    st.write(f"Estimated group: {st.session_state.prediction}")
+    st.write(f"Estimated group: {segment_map[st.session_state.prediction]}")
     
     # Display refresh button
     if st.button("Refresh"):
         reset_app()
+
