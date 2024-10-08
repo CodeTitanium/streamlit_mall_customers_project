@@ -108,7 +108,7 @@ if st.session_state.step == 1:
         f"""
         <div class="container">
             <h2>Welcome, {st.session_state.name}</h2>
-            <p style="color: #4CAF50;">Click the button below to begin the customer segmentation process.</p>
+            <p>Click the button below to begin the customer segmentation process.</p>
             <button class="start-btn" onclick="document.getElementById('content').classList.add('visible');">Let's Get Started</button>
         </div>
         """,
