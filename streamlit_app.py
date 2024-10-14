@@ -2,17 +2,20 @@ import pickle
 import numpy as np
 import streamlit as st
 
+# Force light mode
+st.set_page_config(page_title="Customer Segmentation", page_icon="🛍️", layout="centered", initial_sidebar_state="auto", menu_items=None)
+
 # Load model and scaler
 model = pickle.load(open('model.pkl', 'rb'))
 scaler = pickle.load(open('scaler.sav', 'rb'))
 
-# CSS for transitions and button styles
+# CSS for transitions and button styles (modified for light mode)
 st.markdown(
     """
     <style>
     body {
-        background-color: #1a1a1a;
-        color: #f0f0f0;
+        background-color: #ffffff;
+        color: #333333;
         font-family: 'Arial', sans-serif;
     }
     h1, h2, h3, h4 {
@@ -31,8 +34,8 @@ st.markdown(
         max-width: 600px;
         padding: 20px;
         border-radius: 10px;
-        background-color: #2a2a2a;
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+        background-color: #f0f0f0;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
     }
     .start-btn, .refresh-btn, .clear-btn {
         background-color: #4CAF50;
@@ -56,8 +59,8 @@ st.markdown(
         width: 60px;
     }
     .segment-btn {
-        background-color: #2a2a2a;
-        color: #f0f0f0;
+        background-color: #f0f0f0;
+        color: #333333;
         padding: 15px;
         border: 2px solid #4CAF50;
         border-radius: 10px;
@@ -68,7 +71,7 @@ st.markdown(
         transition: background-color 0.3s, transform 0.2s;
     }
     .segment-btn:hover {
-        background-color: #45a049;
+        background-color: #e0e0e0;
         transform: scale(1.05);
     }
     </style>
@@ -224,3 +227,4 @@ if st.session_state.step == 6:
 # Reset app button (always visible)
 if st.button("Reset App", key="reset_app"):
     reset_app()
+    
