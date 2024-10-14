@@ -177,10 +177,10 @@ if st.session_state.step == 5:
 # The range: [0, 4] = [0, 1, 2, 3, 4]
 if st.session_state.step == 6:
     group_symbols = {
-        0: "🥉",
-        1: "🥈",
+        1: "🥉",
+        3: "🥈",
         2: "🥇",
-        3: "🪙",
+        0: "🪙",
         4: "💎"
     }
 
