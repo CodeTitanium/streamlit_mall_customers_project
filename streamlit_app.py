@@ -80,7 +80,7 @@ st.markdown(
 def reset_app():
     for key in st.session_state.keys():
         del st.session_state[key]
-    st.experimental_rerun()
+    st.rerun()  # Updated from st.experimental_rerun()
 
 # Function to clear all customer data
 def clear_customer_data():
@@ -173,6 +173,8 @@ if st.session_state.step == 5:
         st.session_state.step = 6
 
 # Display only the predicted outcome
+# The actual 5 customer groups (numbers) predicted by the model are:
+# The range: [0, 4] = [0, 1, 2, 3, 4]
 if st.session_state.step == 6:
     group_symbols = {
         0: "🥉",
