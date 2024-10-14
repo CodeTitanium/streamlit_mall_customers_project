@@ -2,10 +2,6 @@ import pickle
 import numpy as np
 import streamlit as st
 
-# Force light theme
-st.set_page_config(page_title="Customer Segmentation", page_icon="🛍️", layout="centered", initial_sidebar_state="auto", menu_items=None)
-st.set_theme('light')
-
 # Load model and scaler
 model = pickle.load(open('model.pkl', 'rb'))
 scaler = pickle.load(open('scaler.sav', 'rb'))
