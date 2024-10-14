@@ -80,7 +80,7 @@ st.markdown(
 def reset_app():
     for key in st.session_state.keys():
         del st.session_state[key]
-    st.rerun()  # Updated from st.experimental_rerun()
+    st.rerun()
 
 # Function to clear all customer data
 def clear_customer_data():
