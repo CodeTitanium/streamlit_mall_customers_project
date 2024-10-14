@@ -11,12 +11,12 @@ st.markdown(
     """
     <style>
     body {
-        background-color: #1a1a1a;  /* Dark background */
-        color: #f0f0f0;  /* Light text color */
-        font-family: 'Arial', sans-serif; /* Modern font */
+        background-color: #1a1a1a;
+        color: #f0f0f0;
+        font-family: 'Arial', sans-serif;
     }
     h1, h2, h3, h4 {
-        color: #4CAF50; /* Bright green for headings */
+        color: #4CAF50;
     }
     .fade-in {
         opacity: 0;
@@ -28,32 +28,32 @@ st.markdown(
     .container {
         text-align: center;
         margin: 50px auto;
-        max-width: 600px;  /* Centered container */
+        max-width: 600px;
         padding: 20px;
         border-radius: 10px;
-        background-color: #2a2a2a; /* Slightly lighter background for the container */
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+        background-color: #2a2a2a;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
     }
-    .start-btn, .refresh-btn {
-        background-color: #4CAF50; /* Button color */
+    .start-btn, .refresh-btn, .clear-btn {
+        background-color: #4CAF50;
         color: white;
         padding: 12px 30px;
         border: none;
-        border-radius: 25px; /* Rounded edges */
+        border-radius: 25px;
         font-size: 18px;
         cursor: pointer;
         margin: 20px 0;
-        transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+        transition: background-color 0.3s, transform 0.2s;
     }
-    .start-btn:hover, .refresh-btn:hover {
-        background-color: #45a049; /* Darker on hover */
-        transform: scale(1.05); /* Slightly grow */
+    .start-btn:hover, .refresh-btn:hover, .clear-btn:hover {
+        background-color: #45a049;
+        transform: scale(1.05);
     }
     .refresh-container img {
         cursor: pointer;
         background: none;
         border: none;
-        width: 60px; /* Set refresh icon size */
+        width: 60px;
     }
     .segment-btn {
         background-color: #2a2a2a;
@@ -82,14 +82,18 @@ def reset_app():
         del st.session_state[key]
     st.experimental_rerun()
 
-# Initial setup for session state to control the steps
+# Function to clear all customer data
+def clear_customer_data():
+    st.session_state.customer_divisions = {i: [] for i in range(5)}
+    st.success("All customer data has been cleared.")
+
+# Initialize session state
 if 'step' not in st.session_state:
     st.session_state.step = 0
 if 'predicted' not in st.session_state:
     st.session_state.predicted = False
-
-# Dictionary to store customers in each division
-customer_divisions = {i: [] for i in range(5)}
+if 'customer_divisions' not in st.session_state:
+    st.session_state.customer_divisions = {i: [] for i in range(5)}
 
 # Collect user name and email
 if st.session_state.step == 0:
@@ -160,8 +164,8 @@ if st.session_state.step == 5:
         st.session_state.predicted = True
         st.session_state.prediction = customer_group[0]
         
-        # Store customer name and email in the appropriate division
-        customer_divisions[st.session_state.prediction].append({
+        # Store customer name and email in the appropriate division using session state
+        st.session_state.customer_divisions[st.session_state.prediction].append({
             "name": st.session_state.name,
             "email": st.session_state.email
         })
@@ -190,14 +194,18 @@ if st.session_state.step == 6:
     for i, label in enumerate(division_labels):
         if st.button(f"{label} ({group_symbols[i]})"):
             st.markdown(f"<div class='container'><h3>Customers in {label}</h3></div>", unsafe_allow_html=True)
-            # Display customers in the selected division
-            if customer_divisions[i]:
-                for customer in customer_divisions[i]:
+            # Display customers in the selected division using session state
+            if st.session_state.customer_divisions[i]:
+                for customer in st.session_state.customer_divisions[i]:
                     st.write(f"Name: {customer['name']}, Email: {customer['email']}")
             else:
                 st.write("No customers in this division yet.")
 
-    # Display refresh image embedded as a clickable element using HTML
+    # Clear customer data button
+    if st.button("Clear All Customer Data", key="clear_data"):
+        clear_customer_data()
+
+    # Refresh button
     st.markdown(
         """
         <div class="refresh-container">
@@ -210,3 +218,7 @@ if st.session_state.step == 6:
         """,
         unsafe_allow_html=True
     )
+
+# Reset app button (always visible)
+if st.button("Reset App", key="reset_app"):
+    reset_app()
